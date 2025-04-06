@@ -4,6 +4,7 @@ import {
 	StyleSheet,
 	StyleProp,
 	ViewStyle,
+	Text,
 	TextInputProps,
 } from "react-native";
 import Animated, {
@@ -27,6 +28,8 @@ type FloatingTextInputProps = {
 	isFocusBorderColor?: string;
 	isBlurBorderColor?: string;
 	isBlurValueBorderColor?: string;
+	isError?: boolean;
+	errorMessage?: string;
 };
 
 export default function FloatingTextInput(
@@ -61,6 +64,19 @@ export default function FloatingTextInput(
 		}
 	};
 
+	const getBorderColor = () => {
+		if (props.isError) {
+			return colors.ErrorNormal; // Error state takes priority
+		}
+		if (isFocused) {
+			return props.isFocusBorderColor ?? colors.PrimaryNormal; // Focused state
+		}
+		if (props.value) {
+			return props.isBlurValueBorderColor ?? colors.Neutral500; // Blurred but has value
+		}
+		return props.isBlurBorderColor ?? colors.Neutral100; // Blurred and empty
+	};
+
 	// Animated styles for the floating label
 	const labelStyle = useAnimatedStyle(() => {
 		return {
@@ -80,56 +96,60 @@ export default function FloatingTextInput(
 					props.isFocusLabelColor ?? colors.Neutral500,
 				]
 			),
-			backgroundColor: interpolateColor(
-				animatedValue.value,
-				[0, 1],
-				["transparent", props.backgroundColor]
-			),
-			paddingLeft: interpolate(animatedValue.value, [0, 1], [0, 4]),
-			paddingRight: interpolate(animatedValue.value, [0, 1], [0, 4]),
-			zIndex: 1,
 		};
 	});
 
 	return (
-		<View
-			onTouchStart={() => inputRef?.current?.focus()}
-			style={[styles.container, props?.containerStyle]}
-		>
-			<Animated.Text style={[styles.label, labelStyle]}>
-				{props?.label}
-			</Animated.Text>
-			<TextInput
-				ref={inputRef}
-				clearButtonMode="always"
-				style={[
-					styles.input,
-					{
-						color: colors.Neutral700,
-						backgroundColor: props?.backgroundColor ?? "transparent",
-						borderColor: isFocused
-							? (props.isFocusBorderColor ?? colors.PrimaryNormal)
-							: props.value
-								? (props.isBlurValueBorderColor ?? colors.Neutral500)
-								: (props.isBlurBorderColor ?? colors.Neutral100),
-					},
-					props?.style,
-				]}
-				onFocus={handleFocus}
-				onBlur={handleBlur}
-				{...props}
-			/>
+		<View style={[styles.outerContainer]}>
+			<View
+				onTouchStart={() => inputRef?.current?.focus()}
+				style={[styles.container, props?.containerStyle]}
+			>
+				<Animated.Text
+					style={[
+						styles.label,
+						labelStyle,
+						{ backgroundColor: props.backgroundColor },
+					]}
+				>
+					{props?.label}
+				</Animated.Text>
+				<TextInput
+					ref={inputRef}
+					clearButtonMode="always"
+					style={[
+						styles.input,
+						{
+							color: colors.Neutral700,
+							backgroundColor: props?.backgroundColor ?? "transparent",
+							borderColor: getBorderColor(),
+						},
+						props?.style,
+					]}
+					onFocus={handleFocus}
+					onBlur={handleBlur}
+					{...props}
+				/>
+			</View>
+			{props?.isError && (
+				<Text style={[styles.errorText, { color: colors.ErrorNormal }]}>
+					{props?.errorMessage}
+				</Text>
+			)}
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
+	outerContainer: {
+		marginBottom: 8,
+	},
 	container: {
 		paddingTop: 20,
-    flex: 1,
+		flex: 1,
 	},
 	input: {
-    width: "100%",
+		width: "100%",
 		height: 50,
 		fontSize: 14,
 		borderWidth: 1,
@@ -143,5 +163,8 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		marginLeft: 16,
 		zIndex: 100,
+	},
+	errorText: {
+		fontSize: 12,
 	},
 });
