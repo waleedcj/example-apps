@@ -16,7 +16,8 @@ import Animated, {
 	ReduceMotion,
 } from "react-native-reanimated";
 import { useRef } from "react";
-import { useTheme } from "@react-navigation/native";
+import { useAppColors } from '@/hooks/useAppColors';
+const DEFAULT_INPUT_HEIGHT = 50; //you can change this according to your liking
 
 type FloatingTextInputProps = {
 	containerStyle?: StyleProp<ViewStyle>;
@@ -30,7 +31,10 @@ type FloatingTextInputProps = {
 	isFocusBorderColor?: string;
 	isBlurBorderColor?: string;
 	isBlurValueBorderColor?: string;
+	reduceMotion?: "never" | "always" | "system";
 };
+
+
 
 export default function SmoothBorderTextInput(
 	props: React.JSX.IntrinsicAttributes &
@@ -39,17 +43,24 @@ export default function SmoothBorderTextInput(
 		FloatingTextInputProps
 ) {
 	const inputRef = useRef<TextInput>(null);
-	const { colors } = useTheme();
+	const colors = useAppColors();
 
 	// Animation value for the floating label
 	const animatedValue = useSharedValue(0);
+
+	const motion =
+	props?.reduceMotion === "never"
+			? ReduceMotion.Never
+			: props?.reduceMotion === "always"
+				? ReduceMotion.Always
+				: ReduceMotion.System;
 
 	// Handle focus and blur events
 	const handleFocus = () => {
 		animatedValue.value = withTiming(1, {
 			duration: 350,
 			easing: Easing.in(Easing.linear),
-			reduceMotion: ReduceMotion.Never,
+			reduceMotion: motion,
 		});
 	};
 
@@ -57,7 +68,7 @@ export default function SmoothBorderTextInput(
 		animatedValue.value = withTiming(0, {
 			duration: 250,
 			easing: Easing.out(Easing.linear),
-			reduceMotion: ReduceMotion.Never,
+			reduceMotion: motion,
 		});
 	};
 
@@ -146,7 +157,7 @@ const styles = StyleSheet.create({
 		marginBlock: 4,
 		borderWidth: 1,
 		borderRadius: 12,
-		height: 50,
+		height: DEFAULT_INPUT_HEIGHT,
 	},
 	input: {
 		flex: 1,

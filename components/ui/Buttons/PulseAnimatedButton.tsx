@@ -13,7 +13,7 @@ import Animated, {
     withSequence,
     withTiming,
 } from "react-native-reanimated";
-import { useTheme } from "@react-navigation/native";
+import { useAppColors } from '@/hooks/useAppColors';
 
 export interface PulsingButtonProps {
     accessibilityHint?: string;
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
 
 const Pulse = ({ index, isDisabled, isLoading }: PulseProps) => {
     const transition = useSharedValue(0);
-    const { colors } = useTheme();
+    const  colors  = useAppColors();
 
     useEffect(() => {
         if (isDisabled || isLoading) {
@@ -121,7 +121,7 @@ export const PulseAnimatedButton = ({
 }: PulsingButtonProps) => {
     const backgroundTransition = useSharedValue(0);
     const isActive = useSharedValue(false);
-    const { colors } = useTheme();
+    const colors = useAppColors();
 
     const motion =
     reduceMotion === "never"

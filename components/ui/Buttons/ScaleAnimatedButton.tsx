@@ -7,7 +7,7 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from "react-native-reanimated";
-import { useTheme } from "@react-navigation/native";
+import { useAppColors } from '@/hooks/useAppColors';
 
 export interface ResizingButtonProps {
 	accessibilityHint?: string;
@@ -26,7 +26,6 @@ const DURATION = 300;
 const styles = StyleSheet.create({
 	container: {
 		alignItems: "center",
-		// backgroundColor: theme.colors.primary,
 		borderRadius: 8,
 		flexDirection: "row",
 		gap: 8,
@@ -36,7 +35,6 @@ const styles = StyleSheet.create({
 		paddingVertical: 8,
 	},
 	title: {
-		// color: theme.colors.textInverted,
 		flexShrink: 1,
 		fontSize: 18,
 		fontWeight: "600",
@@ -56,7 +54,7 @@ export const ScaleAnimatedButton = ({
 }: ResizingButtonProps) => {
 	const transition = useSharedValue(0);
 	const isActive = useSharedValue(false);
-	const { colors } = useTheme();
+	const colors = useAppColors();
 
 	const motion =
 		reduceMotion === "never"
@@ -111,7 +109,7 @@ export const ScaleAnimatedButton = ({
 					styles.container,
 					animatedStyle,
 					{
-						opacity: isDisabled ? 0.5 : 1,
+						opacity: isDisabled ? 0.9 : 1,
 						backgroundColor: colors.PrimaryNormal,
 					},
 				]}

@@ -8,7 +8,7 @@ import Animated, {
     useSharedValue,
     withTiming,
 } from "react-native-reanimated";
-import { useTheme } from "@react-navigation/native";
+import { useAppColors } from '@/hooks/useAppColors';
 
 export interface AnimatedIconButtonProps {
     accessibilityHint?: string;
@@ -58,7 +58,7 @@ export const IconAnimatedButton = ({
     const isActive = useSharedValue(false);
     const [containerWidth, setContainerWidth] = useState(0);
     const [iconX, setIconX] = useState(0);
-    const { colors } = useTheme();
+    const colors = useAppColors();
 
     const isIconMovingBack = useDerivedValue(() => {
         const value = transition.value < previousTransition.value ? 1 : 0;

@@ -13,7 +13,7 @@ import Animated, {
 	withTiming,
 	ReduceMotion,
 } from "react-native-reanimated";
-import { useTheme } from "@react-navigation/native";
+import { useAppColors } from '@/hooks/useAppColors';
 
 export interface AnimatedCartoonButtonProps {
 	accessibilityHint?: string;
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 	// Its height accommodates the button + the visible shadow part
 	pressableContainer: {
 		height: HEIGHT + SHADOW_HEIGHT,
-		width: "100%", // Ensure it takes full width if needed
+		width: "100%",
 	},
 	// The visible "base" or "shadow" of the 3D button
 	shadow: {
@@ -58,9 +58,8 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 		paddingVertical: 8,
 		width: "100%",
-		position: 'absolute', // Position absolutely to allow moving it via 'top'
+		position: 'absolute',
 		left: 0,
-		// top style is applied via animation
 	},
 	title: {
 		flexShrink: 1,
@@ -81,7 +80,7 @@ export const ThreeDimensionAnimatedButton = ({
 }: AnimatedCartoonButtonProps) => {
 	const transition = useSharedValue(0); // 0 = up, 1 = pressed down
 	const isActive = useSharedValue(false); // Track if press is still active
-	const { colors } = useTheme();
+	const colors = useAppColors();
 
 	// Determine the ReduceMotion setting
 	const motionSetting =

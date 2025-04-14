@@ -13,7 +13,7 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from "react-native-reanimated";
-import { useTheme } from "@react-navigation/native";
+import { useAppColors } from '@/hooks/useAppColors';
 
 export interface AnimatedShadowButtonProps {
 	accessibilityHint?: string;
@@ -61,7 +61,7 @@ export const ShadowAnimatedButton = ({
 }: AnimatedShadowButtonProps) => {
 	const transition = useSharedValue(0);
 	const isActive = useSharedValue(false);
-	const { colors } = useTheme();
+	const colors = useAppColors();
 
 	const motion =
 		reduceMotion === "never"

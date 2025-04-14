@@ -28,6 +28,15 @@ export default function TabTwoScreen() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [bio, setBio] = useState('');
+  const [nameError, setNameError] = useState(false);
+
+  const validateName = () => {
+    setNameError(!name);
+  };
+
 
   // Update form data
   const handleChange = (field: string, value: string) => {

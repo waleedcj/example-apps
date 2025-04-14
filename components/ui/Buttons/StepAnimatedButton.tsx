@@ -9,7 +9,7 @@ import Animated, {
     useSharedValue,
     withTiming,
 } from "react-native-reanimated";
-import { useTheme } from "@react-navigation/native";
+import { useAppColors } from '@/hooks/useAppColors';
 
 export interface AnimatedScrollingButtonProps {
     accessibilityHint?: string;
@@ -64,7 +64,7 @@ export const StepAnimatedButton = ({
     const scrollTransition = useSharedValue(0);
     const backgroundTransition = useSharedValue(0);
     const isActive = useSharedValue(false);
-    const { colors } = useTheme();
+    const colors = useAppColors();
 
     useEffect(() => {
         scrollTransition.value = withTiming(currentStep, {

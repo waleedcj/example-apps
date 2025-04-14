@@ -12,7 +12,7 @@ import {
 	Image,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { Ionicons, Octicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons, Octicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import SmoothBorderTextInput from "@/components/ui/textInput/SmoothBorderTextInput";
 import Animated, {
@@ -36,6 +36,21 @@ export default function HomeScreen() {
 	const animatedStyles = useAnimatedStyle(() => ({
 		transform: [{ translateY: -keyboard.height.value }],
 	}));
+
+	const [isLoading, setIsLoading] = useState(false);
+
+	// Handler to simulate loading
+	const handleLoadingPress = () => {
+	  if (isLoading) return; // Prevent multiple presses while loading
+  
+	  setIsLoading(true);
+  
+	  // Simulate an async task (e.g., API call)
+	  setTimeout(() => {
+		setIsLoading(false);
+	  }, 2500); // Stop loading after 2.5 seconds
+	};
+  
 
 	const Icon = (
         <MaterialCommunityIcons
@@ -284,11 +299,13 @@ export default function HomeScreen() {
 						>
 							<Text style={styles.payButtonText}>Pay Now</Text>
 						</TouchableOpacity> */}
-						{/* <PulseAnimatedButton onPress={handleSubmit} title="Pay Up" reduceMotion="never" /> */}
-						<IconAnimatedButton onPress={handleSubmit} title="Pay Up" reduceMotion="never" Icon={Icon} />
-
-						{/* <ThreeDimensionAnimatedButton onPress={handleSubmit} title="Pay Up" reduceMotion="never"  /> */}
-			{/* <GradientButton onPress={handleSubmit} title="Pay Up"  />
+						<PulseAnimatedButton onPress={handleSubmit} title="Pay Up" reduceMotion="never" />
+						<ShadowAnimatedButton onPress={handleSubmit} title="Pay Up" reduceMotion="never" Icon={Icon} />
+						<IconAnimatedButton onPress={handleSubmit} title="Pay Up" reduceMotion="never" Icon={Icon}  />
+							<SmoothBackgroundButton onPress={handleLoadingPress} isLoading={isLoading}  title="Pay Up" reduceMotion="never" Icon={Icon} />
+							<ScaleAnimatedButton onPress={handleLoadingPress} isLoading={isLoading} isDisabled={true} title="Pay Up" reduceMotion="never" Icon={<MaterialIcons name="payment" size={24}  color={colors.Neutral700}/>} />
+						<ThreeDimensionAnimatedButton onPress={handleSubmit} title="Pay Up" reduceMotion="never"  />
+			<GradientButton onPress={handleSubmit} title="Pay Up"  />
             <StepAnimatedButton  currentStep={currentStep}
                     onPress={download}
                     steps={[
@@ -325,7 +342,7 @@ export default function HomeScreen() {
                             ),
                             title: "Downloaded",
                         },
-                    ]} reduceMotion="system" /> */}
+                    ]} reduceMotion="system" />
 
 						<View style={styles.securityNote}>
 							<Ionicons name="lock-closed" size={16} color="#6B7280" />

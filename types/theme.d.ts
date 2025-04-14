@@ -1,61 +1,30 @@
-import { Theme } from '@react-navigation/native'
+
+// Create a file named theme.d.ts in your project root or src
+
+import { Theme } from '@react-navigation/native';
+// Adjust path to your Colors definition if necessary
+// It doesn't need the actual values, just the keys for type checking
 import { Colors } from "@/constants/Colors";
 
-// Define extended theme type that literally *extends* Theme
-interface ExtendedTheme extends Theme {
-  // Reference the Theme type's colors field and make our field an intersection
-  // Learn more:
-  //   https://www.typescriptlang.org/docs/handbook/2/objects.html#intersection-types
-  //   https://www.typescriptlang.org/docs/handbook/2/indexed-access-types.html
-  colors: Theme['colors'] & {
-    PrimaryNormal: string;
-      PrimaryDisable: string;
-      PrimaryLightBackground: string;
-      PrimaryGradient: string[];
-      AuxColorTwo: string;
-      AuxColorThree: string;
-      Neutral900: string;
-      Neutral700: string;
-      Neutral500: string;
-      Neutral300: string;
-      Neutral100: string;
-      Neutral90: string;
-      Neutral70: string;
-      Neutral50: string;
-      Neutral0: string;
-      SuccessfulNormal: string;
-      SuccessfulDisable: string;
-      SuccessfulLightBackground: string;
-      ErrorNormal: string;
-      ErrorDisable: string;
-      ErrorLightBackground: string;
-      WarningNormal: string;
-      WarningDisable: string;
-      WarningLightBackground: string;
-      bgColor: string;
-      ToastBGColor: string;
-      DetailIconColor: string;
-      TabBarBg: string;
-      ModalBg: string;
-      borderColorGrey: string;
-  }
+// Get the type of keys from one of the themes (light/dark)
+// Assuming both have the same keys
+type CustomColorKeys = keyof typeof Colors.light;
+
+// Create a mapped type for the colors record
+// Ensures all keys from your Colors object are typed as string
+type CustomColors = {
+  [key in CustomColorKeys]: typeof Colors.light[key] extends string[] ? string[] : string;
 }
 
-// export const lightTheme: ExtendedTheme = {
-//   dark: false,
-//   colors: {
-//     ...Colors.light
-//   }
-// }
+// Define extended theme type
+interface ExtendedTheme extends Theme {
+  colors: Theme['colors'] & CustomColors;
+}
 
-
-// export const darkTheme: ExtendedTheme = {
-//   dark: true,
-//   colors: {
-//     ...Colors.dark
-//   }
-// }
-
+// Augment the module
 declare module '@react-navigation/native' {
-  export function useTheme(): ExtendedTheme
+  export function useTheme(): ExtendedTheme;
+  // You can also augment DefaultTheme and DarkTheme if needed
+  // export const DefaultTheme: ExtendedTheme;
+  // export const DarkTheme: ExtendedTheme;
 }

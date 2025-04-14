@@ -1,7 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { ReactElement } from "react"; // Removed useState, useEffect
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
-import { useTheme } from "@react-navigation/native";
+import { useAppColors } from '@/hooks/useAppColors';
 
 export interface AnimatedGradientBackgroundButtonProps {
     accessibilityHint?: string;
@@ -59,7 +59,7 @@ export const GradientButton = ({
     title,
     // reduceMotion prop is received but not used internally anymore
 }: AnimatedGradientBackgroundButtonProps) => {
-    const { colors } = useTheme();
+    const colors = useAppColors();
 
     return (
         <Pressable

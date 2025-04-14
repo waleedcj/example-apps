@@ -8,7 +8,7 @@ export const Colors = {
     // Brand Colors
     PrimaryNormal: "#E3A547",
     PrimaryDisable: "#D1B999",
-    PrimaryLightBackground: "#FFF8E1",
+    PrimaryLightBackground: "#E3A54790",
     PrimaryGradient: ["#D8F887", "#19DAA3"],
     AuxColorTwo: "#FDDD46",
     AuxColorThree: "#9C5BF5",
