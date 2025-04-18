@@ -16,10 +16,9 @@ import {
 	Easing,
 	ReduceMotion,
   } from "react-native-reanimated";
-  import { useRef, useState, useMemo } from "react"; // Added useMemo
+  import { useRef, useState, useMemo } from "react";
   import { useAppColors } from "@/hooks/useAppColors";
   
-  // --- Define Defaults ---
   // These should ideally match your StyleSheet to avoid magic numbers
   const DEFAULT_INPUT_HEIGHT = 50; //you can change this according to your liking
   const DEFAULT_LABEL_FONT_SIZE = 14; //This too
@@ -57,7 +56,7 @@ import {
 		? ReduceMotion.Always
 		: ReduceMotion.System;
   
-	// --- Dynamic Calculation Logic ---
+	// Dynamic Calculation Logic 
 	const { inputHeight, labelFontSize } = useMemo(() => {
 	  // Flatten style prop to handle potential arrays
 	  const flatStyle = StyleSheet.flatten(props.style);
@@ -78,7 +77,7 @@ import {
 	  [inputHeight, labelFontSize]
 	);
 	const translateYUp = useMemo(() => -inputHeight / 2, [inputHeight]);
-	// --- End Dynamic Calculation Logic ---
+	//End
   
 	const handleFocus = () => {
 	  setIsFocused(true);

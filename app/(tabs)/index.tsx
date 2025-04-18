@@ -12,8 +12,13 @@ import {
 	Image,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { Ionicons, Octicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import AntDesign from '@expo/vector-icons/AntDesign';
+import {
+	Ionicons,
+	Octicons,
+	MaterialCommunityIcons,
+	MaterialIcons,
+} from "@expo/vector-icons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import SmoothBorderTextInput from "@/components/ui/textInput/SmoothBorderTextInput";
 import Animated, {
 	useAnimatedKeyboard,
@@ -41,35 +46,34 @@ export default function HomeScreen() {
 
 	// Handler to simulate loading
 	const handleLoadingPress = () => {
-	  if (isLoading) return; // Prevent multiple presses while loading
-  
-	  setIsLoading(true);
-  
-	  // Simulate an async task (e.g., API call)
-	  setTimeout(() => {
-		setIsLoading(false);
-	  }, 2500); // Stop loading after 2.5 seconds
+		if (isLoading) return; // Prevent multiple presses while loading
+
+		setIsLoading(true);
+
+		// Simulate an async task (e.g., API call)
+		setTimeout(() => {
+			setIsLoading(false);
+		}, 2500); // Stop loading after 2.5 seconds
 	};
-  
 
 	const Icon = (
-        <MaterialCommunityIcons
-            accessible={false}
-            color={colors.Neutral700}
-            name="send"
-            size={18}
-        />
-    );
+		<MaterialCommunityIcons
+			accessible={false}
+			color={colors.Neutral700}
+			name="send"
+			size={18}
+		/>
+	);
 
-    const download = () => {
-        setCurrentStep(1);
-        setTimeout(() => {
-            setCurrentStep(2);
-        }, 2000);
-        setTimeout(() => {
-            setCurrentStep(0);
-        }, 4000);
-    };
+	const download = () => {
+		setCurrentStep(1);
+		setTimeout(() => {
+			setCurrentStep(2);
+		}, 2000);
+		setTimeout(() => {
+			setCurrentStep(0);
+		}, 4000);
+	};
 
 	// Form state
 	const [formData, setFormData] = useState({
@@ -228,7 +232,12 @@ export default function HomeScreen() {
 							onChangeText={(text) => handleChange("cardName", text)}
 							backgroundColor={colors.background}
 							startIcon={
-                <AntDesign name="user" size={18} style={{left: 12, marginRight: 4}} color={colors.Neutral300} />
+								<AntDesign
+									name="user"
+									size={18}
+									style={{ left: 12, marginRight: 4 }}
+									color={colors.Neutral300}
+								/>
 							}
 							isError={errors.cardName}
 							errorMessage="Cardholder name is required"
@@ -299,50 +308,90 @@ export default function HomeScreen() {
 						>
 							<Text style={styles.payButtonText}>Pay Now</Text>
 						</TouchableOpacity> */}
-						<PulseAnimatedButton onPress={handleSubmit} title="Pay Up" reduceMotion="never" />
-						<ShadowAnimatedButton onPress={handleSubmit} title="Pay Up" reduceMotion="never" Icon={Icon} />
-						<IconAnimatedButton onPress={handleSubmit} title="Pay Up" reduceMotion="never" Icon={Icon}  />
-							<SmoothBackgroundButton onPress={handleLoadingPress} isLoading={isLoading}  title="Pay Up" reduceMotion="never" Icon={Icon} />
-							<ScaleAnimatedButton onPress={handleLoadingPress} isLoading={isLoading} isDisabled={true} title="Pay Up" reduceMotion="never" Icon={<MaterialIcons name="payment" size={24}  color={colors.Neutral700}/>} />
-						<ThreeDimensionAnimatedButton onPress={handleSubmit} title="Pay Up" reduceMotion="never"  />
-			<GradientButton onPress={handleSubmit} title="Pay Up"  />
-            <StepAnimatedButton  currentStep={currentStep}
-                    onPress={download}
-                    steps={[
-                        {
-                            Icon: (
-                                <MaterialCommunityIcons
-                                    accessible={false}
-                                    color={colors.Neutral700}
-                                    name="download"
-                                    size={18}
-                                />
-                            ),
-                            title: "Download",
-                        },
-                        {
-                            Icon: (
-                                <MaterialCommunityIcons
-                                    accessible={false}
-                                    color={colors.Neutral700}
-                                    name="progress-download"
-                                    size={18}
-                                />
-                            ),
-                            title: "Downloading...",
-                        },
-                        {
-                            Icon: (
-                                <MaterialCommunityIcons
-                                    accessible={false}
-                                    color={colors.Neutral700}
-                                    name="check"
-                                    size={18}
-                                />
-                            ),
-                            title: "Downloaded",
-                        },
-                    ]} reduceMotion="system" />
+						<PulseAnimatedButton
+							onPress={handleSubmit}
+							title="Pay Up"
+							reduceMotion="never"
+						/>
+						<ShadowAnimatedButton
+							onPress={handleSubmit}
+							title="Pay Up"
+							reduceMotion="never"
+							Icon={Icon}
+						/>
+						<IconAnimatedButton
+							onPress={handleSubmit}
+							title="Pay Up"
+							reduceMotion="never"
+							Icon={Icon}
+						/>
+						<SmoothBackgroundButton
+							onPress={handleLoadingPress}
+							isLoading={isLoading}
+							title="Pay Up"
+							reduceMotion="never"
+							Icon={Icon}
+						/>
+						<ScaleAnimatedButton
+							onPress={handleLoadingPress}
+							isLoading={isLoading}
+							isDisabled={true}
+							title="Pay Up"
+							reduceMotion="never"
+							Icon={
+								<MaterialIcons
+									name="payment"
+									size={24}
+									color={colors.Neutral700}
+								/>
+							}
+						/>
+						<ThreeDimensionAnimatedButton
+							onPress={handleSubmit}
+							title="Pay Up"
+							reduceMotion="never"
+						/>
+						<GradientButton onPress={handleSubmit} title="Pay Up" />
+						<StepAnimatedButton
+							currentStep={currentStep}
+							onPress={download}
+							steps={[
+								{
+									Icon: (
+										<MaterialCommunityIcons
+											accessible={false}
+											color={colors.Neutral700}
+											name="download"
+											size={18}
+										/>
+									),
+									title: "Download",
+								},
+								{
+									Icon: (
+										<MaterialCommunityIcons
+											accessible={false}
+											color={colors.Neutral700}
+											name="progress-download"
+											size={18}
+										/>
+									),
+									title: "Downloading...",
+								},
+								{
+									Icon: (
+										<MaterialCommunityIcons
+											accessible={false}
+											color={colors.Neutral700}
+											name="check"
+											size={18}
+										/>
+									),
+									title: "Downloaded",
+								},
+							]}
+							reduceMotion="system"
+						/>
 
 						<View style={styles.securityNote}>
 							<Ionicons name="lock-closed" size={16} color="#6B7280" />

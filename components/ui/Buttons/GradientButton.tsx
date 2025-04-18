@@ -57,7 +57,6 @@ export const GradientButton = ({
     isLoading = false,
     onPress,
     title,
-    // reduceMotion prop is received but not used internally anymore
 }: AnimatedGradientBackgroundButtonProps) => {
     const colors = useAppColors();
 
@@ -90,7 +89,6 @@ export const GradientButton = ({
                         start={{ x: 0, y: 1 }}
                         style={styles.linearGradient} // Use simplified style
                     />
-                    {/* Content View positioned absolutely on top */}
                     <View
                         style={[
                             styles.contentContainer,

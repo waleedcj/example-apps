@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   View,
   Text,
@@ -15,6 +15,9 @@ import { Ionicons } from '@expo/vector-icons'; // Make sure to install expo/vect
 import FloatingTextInput from '@/components/ui/FloatingTextInput';
 import SmoothBorderTextInput from '@/components/ui/textInput/SmoothBorderTextInput';
 
+const passwordRegex = /^(?=^.{9,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?=^.*[^\s].*$).*$/;
+const passwordRequirementMessage =
+  'Password must be 9+ chars, with uppercase, lowercase, number, and special character (@$!%*?&).';
 
 export default function TabTwoScreen() {
   const { colors } = useTheme();
@@ -26,7 +29,10 @@ export default function TabTwoScreen() {
     bio: '',
     password: '',
   });
+  const [password, setPassword] = useState('');
+  const [isPasswordValid, setIsPasswordValid] = useState(true); // Assume valid initially or when empty
   const [showPassword, setShowPassword] = useState(false);
+
   const [submitted, setSubmitted] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -42,6 +48,22 @@ export default function TabTwoScreen() {
   const handleChange = (field: string, value: string) => {
     setFormData({ ...formData, [field]: value });
   };
+
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+    // Only validate if the password field is not empty
+    if (text.length > 0) {
+      setIsPasswordValid(passwordRegex.test(text));
+    } else {
+      // Reset validation state if field is cleared
+      setIsPasswordValid(true); // Or false if empty is considered invalid immediately
+    }
+  };
+
+  const passwordError = useMemo(() => {
+    console.log(password.length > 0 && !isPasswordValid);
+    return password.length > 0 && !isPasswordValid;
+}, [password, isPasswordValid]);
 
   // Handle form submission
   const handleSubmit = () => {
@@ -75,7 +97,7 @@ export default function TabTwoScreen() {
                 value={formData.fullName}
                 onChangeText={(text) => handleChange('fullName', text)}
                 backgroundColor={colors.background}
-                containerStyle={styles.inputContainer}
+                
               />
             </View>
 
@@ -87,7 +109,7 @@ export default function TabTwoScreen() {
                 onChangeText={(text) => handleChange('email', text)}
 				backgroundColor={colors.background}
                 keyboardType="email-address"
-                containerStyle={styles.inputContainer}
+                
               />
             </View>
 
@@ -99,7 +121,7 @@ export default function TabTwoScreen() {
                 onChangeText={(text) => handleChange('phone', text)}
 				backgroundColor={colors.background}
                 keyboardType="phone-pad"
-                containerStyle={styles.inputContainer}
+                
               />
             </View>
 
@@ -110,7 +132,7 @@ export default function TabTwoScreen() {
                 value={formData.address}
                 onChangeText={(text) => handleChange('address', text)}
 				backgroundColor={colors.background}
-                containerStyle={styles.inputContainer}
+                
               />
             </View>
 
@@ -120,34 +142,33 @@ export default function TabTwoScreen() {
                 value={formData.address}
                 onChangeText={(text) => handleChange('address', text)}
 				backgroundColor={colors.background}
-                containerStyle={styles.inputContainer}
+                
               />
             </View> */}
 
 
             {/* Password Input with Show/Hide */}
             <View style={styles.inputWrapper}>
-              <View style={styles.passwordContainer}>
-                <FloatingTextInput
-                  label="Password"
-                  value={formData.password}
-                  onChangeText={(text) => handleChange('password', text)}
-				  backgroundColor={colors.background}
-                  secureTextEntry={!showPassword}
-                  containerStyle={styles.inputContainer}
-                  clearButtonMode="never"
+              <FloatingTextInput
+                label="Password"
+                value={password}
+                onChangeText={handlePasswordChange} 
+                backgroundColor={colors.background}
+                secureTextEntry={!showPassword}
+                clearButtonMode="never"
+                isError={passwordError}
+                errorMessage={passwordRequirementMessage}
+              />
+              <TouchableOpacity
+                style={styles.eyeIcon}
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <Ionicons
+                  name={showPassword ? 'eye-off' : 'eye'}
+                  size={24}
+                  color={colors.Neutral700}
                 />
-                <TouchableOpacity
-                  style={styles.eyeIcon}
-                  onPress={() => setShowPassword(!showPassword)}
-                >
-                  <Ionicons
-                    name={showPassword ? 'eye-off' : 'eye'}
-                    size={24}
-                    color="#6B7280"
-                  />
-                </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
             </View>
 
             {/* Submit Button */}
@@ -194,7 +215,6 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     marginBottom: 10,
-    height: 70,
   },
   inputContainer: {
     shadowColor: '#000',
