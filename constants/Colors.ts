@@ -13,6 +13,12 @@ export const Colors = {
     AuxColorTwo: "#FDDD46",
     AuxColorThree: "#9C5BF5",
 
+    radialGradient: {
+      start: "#1656D080",
+      middle: "#2150AA66", 
+      end: "#3234391A"
+  },
+
     // Neutral Colors
     Neutral900: "#000000",
     Neutral700: "#333333",
@@ -51,6 +57,13 @@ export const Colors = {
     PrimaryGradient: ["#D8F887", "#19DAA3"],
     AuxColorTwo: "#FDDD46",
     AuxColorThree: "#9C5BF5",
+    
+    radialGradient: {
+      start: "#1656D080",
+      middle: "#2150AA66", 
+      end: "#3234391A"
+  },
+
     // Neutral Colors
     Neutral900: "#FFFFFF",
     Neutral700: "#D2D2D7",

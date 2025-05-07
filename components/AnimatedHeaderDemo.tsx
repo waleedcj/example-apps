@@ -5,14 +5,10 @@ import Animated, {
 	useAnimatedScrollHandler,
 	withSpring,
 } from "react-native-reanimated";
-import {
-	SafeAreaView,
-	useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Header, HEADER_HEIGHT } from "./Header";
-import { useTheme } from "@react-navigation/native";
 import { FlashList, FlashListProps } from "@shopify/flash-list";
-import LoadingSpinnerSVG from "./ui/LoadingSpinner";
+import { useAppColors } from "@/hooks/useAppColors";
 
 // Default data to scroll through
 const defaultData = Array.from({ length: 100 }, (_, i) => `Item ${i + 1}`);
@@ -22,7 +18,7 @@ export default function AnimatedHeaderDemo() {
 	const scrollY = useSharedValue(0);
 	const lastScrollY = useSharedValue(0);
 	const headerShown = useSharedValue(1);
-	const { colors } = useTheme();
+	const  colors  = useAppColors();
 	const AnimatedFlashList =
 		Animated.createAnimatedComponent<FlashListProps<any>>(FlashList);
 
@@ -53,7 +49,7 @@ export default function AnimatedHeaderDemo() {
 	});
 
 	const renderItem = ({ item }: { item: string }) => (
-		<View style={styles.item}>
+		<View style={[styles.item, {borderBottomColor: colors.Neutral500}]}>
 			<Text style={[styles.text, { color: colors.Neutral700 }]}>{item}</Text>
 		</View>
 	);
@@ -112,13 +108,8 @@ const styles = StyleSheet.create({
 		shadowRadius: 3,
 		elevation: 4,
 	},
-	title: {
-		color: "black",
-		fontWeight: "bold",
-	},
 	scrollView: {
 		flex: 1,
-		// paddingTop: 50,
 	},
 	contentContainer: {
 		paddingTop: 50,
@@ -127,8 +118,6 @@ const styles = StyleSheet.create({
 	item: {
 		padding: 20,
 		borderBottomWidth: 1,
-		borderBottomColor: "#ccc",
-  
 	},
 	text: {
 		fontSize: 16,

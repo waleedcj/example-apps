@@ -49,6 +49,11 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
+          <Stack.Screen name="radialBackground"  options={{ headerShown: false }} />
+          <Stack.Screen name="AnimatedHeader" options={{ headerShown: false }} />
+          <Stack.Screen name="TabBarPage" options={{ headerShown: false }} />
+          <Stack.Screen name="SkeletonPage" options={{ headerShown: false }} />
+          <Stack.Screen name="OnboardingPage" options={{ headerShown: false }} />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>

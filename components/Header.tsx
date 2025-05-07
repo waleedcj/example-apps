@@ -1,6 +1,5 @@
 import React from "react";
-import { useTheme } from "@react-navigation/native";
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Animated, {
@@ -10,7 +9,7 @@ import Animated, {
 	useAnimatedStyle,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import LoadingSpinnerSVG from "./ui/LoadingSpinner";
+import { useAppColors } from "@/hooks/useAppColors";
 
 export const HEADER_HEIGHT = 60;
 
@@ -19,7 +18,7 @@ type HeaderProps = {
 };
 
 export function Header({ headerShown }: HeaderProps) {
-	const { colors } = useTheme();
+	const  colors  = useAppColors();
 	const insets = useSafeAreaInsets();
 
 	const headerAnimatedStyle = useAnimatedStyle(() => {
@@ -133,13 +132,11 @@ const styles = StyleSheet.create({
 		alignItems: "flex-start",
 	},
 	usernameText: {
-		color: "#000", // Default value; will be overridden by colors.Neutral900
-		fontSize: 16, // Assumed from s2; adjust if needed
+		fontSize: 16,
 		fontWeight: "600",
 	},
 	buyerText: {
-		color: "#000", // Default value; will be overridden by colors.Neutral900
-		fontSize: 12, // Assumed from s4; adjust if needed
+		fontSize: 12,
 		fontWeight: "400",
 	},
 	iconContainer: {

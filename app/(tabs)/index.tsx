@@ -32,11 +32,13 @@ import { IconAnimatedButton } from "@/components/ui/Buttons/IconAnimatedButton";
 import { StepAnimatedButton } from "@/components/ui/Buttons/StepAnimatedButton";
 import { GradientButton } from "@/components/ui/Buttons/GradientButton";
 import { PulseAnimatedButton } from "@/components/ui/Buttons/PulseAnimatedButton";
+import { useRouter } from 'expo-router';
 
 export default function HomeScreen() {
 	const { colors } = useTheme();
 	const keyboard = useAnimatedKeyboard();
 	const [currentStep, setCurrentStep] = useState(0);
+	const router = useRouter();
 
 	const animatedStyles = useAnimatedStyle(() => ({
 		transform: [{ translateY: -keyboard.height.value }],
@@ -326,16 +328,16 @@ export default function HomeScreen() {
 							Icon={Icon}
 						/>
 						<SmoothBackgroundButton
-							onPress={handleLoadingPress}
+							onPress={() => router.navigate('/TabBarPage')}
 							isLoading={isLoading}
 							title="Pay Up"
 							reduceMotion="never"
 							Icon={Icon}
 						/>
 						<ScaleAnimatedButton
-							onPress={handleLoadingPress}
+								onPress={() => router.navigate('/SkeletonPage')}
 							isLoading={isLoading}
-							isDisabled={true}
+							// isDisabled={true}
 							title="Pay Up"
 							reduceMotion="never"
 							Icon={
@@ -347,11 +349,11 @@ export default function HomeScreen() {
 							}
 						/>
 						<ThreeDimensionAnimatedButton
-							onPress={handleSubmit}
+							onPress={() => router.navigate('/AnimatedHeader')}
 							title="Pay Up"
 							reduceMotion="never"
 						/>
-						<GradientButton onPress={handleSubmit} title="Pay Up" />
+						<GradientButton onPress={() => router.navigate('/OnboardingPage')} title="Pay Up" />
 						<StepAnimatedButton
 							currentStep={currentStep}
 							onPress={download}
