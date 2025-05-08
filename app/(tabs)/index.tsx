@@ -311,12 +311,12 @@ export default function HomeScreen() {
 							<Text style={styles.payButtonText}>Pay Now</Text>
 						</TouchableOpacity> */}
 						<PulseAnimatedButton
-							onPress={handleSubmit}
+							onPress={() => router.navigate('/ImageCarouselPage')}
 							title="Pay Up"
 							reduceMotion="never"
 						/>
 						<ShadowAnimatedButton
-							onPress={handleSubmit}
+						onPress={() => router.navigate('/SwipeSliderPage')}
 							title="Pay Up"
 							reduceMotion="never"
 							Icon={Icon}

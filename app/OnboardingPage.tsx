@@ -1,10 +1,7 @@
-// Example Usage in a screen (e.g., screens/OnboardingScreen.tsx)
-
 import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import Onboarding from '@/components/ui/Onboarding';
-// Import your actual hook and data
 import { useAppColors } from '@/hooks/useAppColors';
 
 // Define or import your onboarding data
@@ -27,137 +24,12 @@ const AppOnboardingData = [
         description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
         lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
     },
-    {
-        id: '4',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '5',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '6',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '7',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '8',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '9',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '10',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '11',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '12',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '13',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '14',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '15',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '16',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '17',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, {
-        id: '18',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    }, 
-    //{
-    //     id: '19',
-    //     title: 'Chat with Sellers, Directly',
-    //     description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-    //     lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    // }, {
-    //     id: '20',
-    //     title: 'Chat with Sellers, Directly',
-    //     description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-    //     lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    // }, {
-    //     id: '21',
-    //     title: 'Chat with Sellers, Directly',
-    //     description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-    //     lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    // }, {
-    //     id: '22',
-    //     title: 'Chat with Sellers, Directly',
-    //     description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-    //     lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    // }, {
-    //     id: '23',
-    //     title: 'Chat with Sellers, Directly',
-    //     description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-    //     lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    // }, {
-    //     id: '24',
-    //     title: 'Chat with Sellers, Directly',
-    //     description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-    //     lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    // }, {
-    //     id: '25',
-    //     title: 'Chat with Sellers, Directly',
-    //     description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-    //     lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    // }, {
-    //     id: '26',
-    //     title: 'Chat with Sellers, Directly',
-    //     description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-    //     lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    // },
 ]
-
-const OnboardingPage = () => {
-  const colors = useAppColors(); // Use colors for screen background if needed
+export default function OnboardingPage() {
+  const colors = useAppColors();
 
   const handleOnboardingComplete = () => {
-    // --- Application Specific Logic ---
-    // 1. Save onboarding status (e.g., using AsyncStorage or your state management)
-    // Example: YourStore.setHasSeenOnboarding(true);
-    console.log('Onboarding completed!');
-
-    // 2. Navigate away using Expo Router
-    router.replace('/(tabs)'); // Replace with your target route (e.g., home or main tabs)
-     // --- End Application Specific Logic ---
+    router.replace('/(tabs)');
   };
 
   return (
@@ -176,5 +48,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-export default OnboardingPage;

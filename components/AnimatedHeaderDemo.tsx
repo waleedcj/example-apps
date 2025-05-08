@@ -15,6 +15,7 @@ const defaultData = Array.from({ length: 100 }, (_, i) => `Item ${i + 1}`);
 
 // Main Component with ScrollView and Animated Header
 export default function AnimatedHeaderDemo() {
+	
 	const scrollY = useSharedValue(0);
 	const lastScrollY = useSharedValue(0);
 	const headerShown = useSharedValue(1);

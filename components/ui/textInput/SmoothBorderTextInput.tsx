@@ -19,7 +19,7 @@ import { useRef } from "react";
 import { useAppColors } from '@/hooks/useAppColors';
 const DEFAULT_INPUT_HEIGHT = 50; //you can change this according to your liking
 
-type FloatingTextInputProps = {
+type SmoothBorderTextInputProps = {
 	containerStyle?: StyleProp<ViewStyle>;
 	backgroundColor: string;
 	label: string;
@@ -40,7 +40,7 @@ export default function SmoothBorderTextInput(
 	props: React.JSX.IntrinsicAttributes &
 		React.JSX.IntrinsicClassAttributes<TextInput> &
 		Readonly<TextInputProps> &
-		FloatingTextInputProps
+		SmoothBorderTextInputProps
 ) {
 	const inputRef = useRef<TextInput>(null);
 	const colors = useAppColors();

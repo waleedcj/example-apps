@@ -21,8 +21,7 @@ const TopLosersContent = () => {
 		</View>
 	);
 };
-
-const TabBarPage = () => {
+export default function TabBarPage() {
 	const appColors = useAppColors();
 	const tabData = [
 		{
@@ -76,5 +75,3 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 	},
 });
-
-export default TabBarPage;

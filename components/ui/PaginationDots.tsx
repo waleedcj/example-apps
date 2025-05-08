@@ -97,7 +97,6 @@ type ScrollingPaginationDotsProps = {
   slideWidth?: number; // Width of each slide in the FlatList
   containerStyle?: StyleProp<ViewStyle>;
   dotStyle?: StyleProp<ViewStyle>;
-  activeDotScale?: number; // How much the active dot scales up
   inactiveDotOpacity?: number; // Opacity of dots at the edge of the visible window
   maxVisibleDots?: number; // Max dots to display in the container (ideally odd)
 };

@@ -54,6 +54,8 @@ export default function RootLayout() {
           <Stack.Screen name="TabBarPage" options={{ headerShown: false }} />
           <Stack.Screen name="SkeletonPage" options={{ headerShown: false }} />
           <Stack.Screen name="OnboardingPage" options={{ headerShown: false }} />
+          <Stack.Screen name="ImageCarouselPage" options={{ headerShown: false }} />
+          <Stack.Screen name="SwipeSliderPage" options={{ headerShown: false }} />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>
