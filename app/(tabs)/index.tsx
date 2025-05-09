@@ -10,6 +10,7 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	Image,
+	Button,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import {
@@ -322,7 +323,7 @@ export default function HomeScreen() {
 							Icon={Icon}
 						/>
 						<IconAnimatedButton
-							onPress={handleSubmit}
+							onPress={() => router.navigate('/ProgressCirclePage')}
 							title="Pay Up"
 							reduceMotion="never"
 							Icon={Icon}
@@ -393,6 +394,14 @@ export default function HomeScreen() {
 								},
 							]}
 							reduceMotion="system"
+						/>
+						<Button
+							onPress={() => router.navigate('/OtpPage')}
+							title="OTPPAGE"
+						/>
+							<Button
+							onPress={() => router.navigate('/MyInsightsPage')}
+							title="Insights"
 						/>
 
 						<View style={styles.securityNote}>

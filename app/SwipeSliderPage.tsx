@@ -1,12 +1,9 @@
-// screens/SwipeSliderDemoScreen.tsx
 import React from 'react';
 import { ScrollView, View, StyleSheet, Alert, Text, Dimensions } from 'react-native';
 import SwipeSlider from '@/components/ui/Slider';
-import { useAppColors } from '@/hooks/useAppColors';   // Adjust this path
+import { useAppColors } from '@/hooks/useAppColors'; 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { router } from 'expo-router'; // Assuming you use expo-router for navigation
-
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SwipeSliderPage() {
     const colors = useAppColors();
@@ -34,6 +31,7 @@ export default function SwipeSliderPage() {
     };
 
     return (
+        <SafeAreaView>
         <ScrollView contentContainerStyle={styles.screenContainer}>
             <Text style={[styles.title, { color: colors.Neutral900 }]}>Swipe Slider Examples</Text>
 
@@ -54,6 +52,7 @@ export default function SwipeSliderPage() {
                     sliderSize={60}
                     sliderTrackHeight={70}
                     enableHaptics={true}
+                    reduceMotion='never'
                 />
             </View>
 
@@ -70,9 +69,10 @@ export default function SwipeSliderPage() {
                     completeText="Confirmed!"
                     icon={<MaterialIcons name="check-circle-outline" size={22} color={colors.PrimaryDisable} />}
                     borderRadius={12}
-                    sliderSize={40}
+                    sliderSize={50}
                     sliderTrackWidth={screenWidth * 0.85}
                     sliderTrackHeight={60}
+                      reduceMotion='never'
                 />
             </View>
 
@@ -92,6 +92,7 @@ export default function SwipeSliderPage() {
                     sliderSize={55}
                     sliderTrackWidth={screenWidth * 0.75}
                     sliderTrackHeight={65}
+                      reduceMotion='never'
                 />
             </View>
 
@@ -112,9 +113,11 @@ export default function SwipeSliderPage() {
                     sliderTrackWidth={screenWidth * 0.6}
                     sliderTrackHeight={50}
                     textStyle={{ fontSize: 14 }} // Custom text style
+                      reduceMotion='never'
                 />
             </View>
         </ScrollView>
+        </SafeAreaView>
     );
 }
 

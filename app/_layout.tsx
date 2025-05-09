@@ -56,6 +56,9 @@ export default function RootLayout() {
           <Stack.Screen name="OnboardingPage" options={{ headerShown: false }} />
           <Stack.Screen name="ImageCarouselPage" options={{ headerShown: false }} />
           <Stack.Screen name="SwipeSliderPage" options={{ headerShown: false }} />
+          <Stack.Screen name="ProgressCirclePage" options={{ headerShown: false }} />
+          <Stack.Screen name="OtpPage" options={{ headerShown: false }} />
+          <Stack.Screen name="MyInsightsPage" options={{ headerShown: false }} />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>

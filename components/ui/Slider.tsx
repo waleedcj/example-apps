@@ -23,10 +23,7 @@ import Animated, {
 	interpolate,
 	Extrapolation,
 } from "react-native-reanimated";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { useAppColors } from "@/hooks/useAppColors";
 import * as Haptics from "expo-haptics";
-import { router } from "expo-router";
 
 const { width: screenWidth } = Dimensions.get("window");
 const SLIDER_TRACK_WIDTH = screenWidth * 0.8;
@@ -87,16 +84,6 @@ const SwipeSlider: React.FC<SwipeSliderProps> = ({
 				? ReduceMotion.Always
 				: ReduceMotion.System;
 
-	const handleSwipeComplete = () => {
-		console.log("Swipe complete! Offset:", offset.value);
-		setTimeout(() => {
-			router.replace("/TabBarPage");
-		}, 500);
-
-		// Here you could trigger an action, e.g., navigation, API call, etc.
-		// For now, it just logs.
-	};
-
 	const handleHaptic = () => {
 		Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 	};
@@ -109,10 +96,6 @@ const SwipeSlider: React.FC<SwipeSliderProps> = ({
 		})
 		.onEnd(() => {
 			if (offset.value >= CompletionOffset) {
-				// If pulled past the threshold, snap to the end
-				// offset.value = withTiming(MaxOffset);
-				// Optionally, call a function on completion
-
 				completionProgress.value = withTiming(1, {
 					duration: 350,
 					easing: Easing.in(Easing.linear),
