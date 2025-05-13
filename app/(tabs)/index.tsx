@@ -400,8 +400,13 @@ export default function HomeScreen() {
 							title="OTPPAGE"
 						/>
 							<Button
-							onPress={() => router.navigate('/MyInsightsPage')}
+							onPress={() => router.navigate('/MyInsightsPage')} 
 							title="Insights"
+						/>
+						
+							<Button
+							onPress={() => router.navigate('/TransitioningProgressCirclePage')}
+							title="TransitioningProgressCirclePage"
 						/>
 
 						<View style={styles.securityNote}>

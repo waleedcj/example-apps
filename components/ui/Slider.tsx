@@ -22,6 +22,7 @@ import Animated, {
 	interpolateColor,
 	interpolate,
 	Extrapolation,
+	SharedValue,
 } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
 
@@ -33,11 +34,16 @@ const BORDER_RADIUS = 16; //same for both
 const TRACK_PADDING = 5;
 const HANDLE_INITIAL_LEFT = 5; // The handle moves from its initial `left` position.
 const COMPLETION_THRESHOLD_PERCENTAGE = 0.98; //if handle is moved 98% it is considered done
-
+export const SPRING_CONFIG = {
+	damping: 20,
+	stiffness: 240,
+	mass: 0.4,
+};
 
 type SwipeSliderProps = {
 	onSwipeComplete: () => void;
 	enableHaptics?: boolean;
+	completed?: SharedValue<boolean>;
 	sliderSize?: number;
 	sliderTrackWidth?: number;
 	sliderTrackHeight?: number;
@@ -74,8 +80,9 @@ const SwipeSlider: React.FC<SwipeSliderProps> = ({
 }) => {
 	const offset = useSharedValue(0);
 	const completionProgress = useSharedValue(0);
-    const MaxOffset = sliderTrackWidth - sliderSize - TRACK_PADDING - HANDLE_INITIAL_LEFT  // Calculate the maximum translation offset for the handle
-    const CompletionOffset = MaxOffset * COMPLETION_THRESHOLD_PERCENTAGE; // how much offset until complete
+	const MaxOffset =
+		sliderTrackWidth - sliderSize - TRACK_PADDING - HANDLE_INITIAL_LEFT; // Calculate the maximum translation offset for the handle
+	const CompletionOffset = MaxOffset * COMPLETION_THRESHOLD_PERCENTAGE; // how much offset until complete
 
 	const motion =
 		reduceMotion === "never"
@@ -84,6 +91,11 @@ const SwipeSlider: React.FC<SwipeSliderProps> = ({
 				? ReduceMotion.Always
 				: ReduceMotion.System;
 
+	const TIMING_CONFIG = {
+		duration: 350,
+		easing: Easing.in(Easing.linear),
+		reduceMotion: motion,
+	};
 	const handleHaptic = () => {
 		Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 	};
@@ -96,20 +108,13 @@ const SwipeSlider: React.FC<SwipeSliderProps> = ({
 		})
 		.onEnd(() => {
 			if (offset.value >= CompletionOffset) {
-				completionProgress.value = withTiming(1, {
-					duration: 350,
-					easing: Easing.in(Easing.linear),
-					reduceMotion: motion,
-				});
+				completionProgress.value = withTiming(1, TIMING_CONFIG);
 				runOnJS(onSwipeComplete)();
 				enableHaptics && runOnJS(handleHaptic)();
 			} else {
 				// If not pulled far enough, snap back to the beginning
-				offset.value = withTiming(0, {
-					duration: 500,
-					easing: Easing.out(Easing.quad),
-					reduceMotion: motion,
-				});
+                completionProgress.value = withTiming(0, TIMING_CONFIG);
+				offset.value = withTiming(0, TIMING_CONFIG);
 			}
 		});
 

@@ -59,6 +59,7 @@ export default function RootLayout() {
           <Stack.Screen name="ProgressCirclePage" options={{ headerShown: false }} />
           <Stack.Screen name="OtpPage" options={{ headerShown: false }} />
           <Stack.Screen name="MyInsightsPage" options={{ headerShown: false }} />
+          <Stack.Screen name="TransitioningProgressCirclePage" options={{ headerShown: false }} />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>
