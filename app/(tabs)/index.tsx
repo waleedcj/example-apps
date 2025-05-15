@@ -408,6 +408,10 @@ export default function HomeScreen() {
 							onPress={() => router.navigate('/TransitioningProgressCirclePage')}
 							title="TransitioningProgressCirclePage"
 						/>
+							<Button
+							onPress={() => router.navigate('/SearchBarPage')}
+							title="SearchBarPage"
+						/>
 
 						<View style={styles.securityNote}>
 							<Ionicons name="lock-closed" size={16} color="#6B7280" />

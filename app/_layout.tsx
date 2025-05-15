@@ -13,9 +13,12 @@ import "react-native-gesture-handler";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Colors } from "@/constants/Colors";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -42,27 +45,30 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider
-        value={colorScheme === "dark" ? CustomDarkTheme : CustomLightTheme}
-      >
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-          <Stack.Screen name="radialBackground"  options={{ headerShown: false }} />
-          <Stack.Screen name="AnimatedHeader" options={{ headerShown: false }} />
-          <Stack.Screen name="TabBarPage" options={{ headerShown: false }} />
-          <Stack.Screen name="SkeletonPage" options={{ headerShown: false }} />
-          <Stack.Screen name="OnboardingPage" options={{ headerShown: false }} />
-          <Stack.Screen name="ImageCarouselPage" options={{ headerShown: false }} />
-          <Stack.Screen name="SwipeSliderPage" options={{ headerShown: false }} />
-          <Stack.Screen name="ProgressCirclePage" options={{ headerShown: false }} />
-          <Stack.Screen name="OtpPage" options={{ headerShown: false }} />
-          <Stack.Screen name="MyInsightsPage" options={{ headerShown: false }} />
-          <Stack.Screen name="TransitioningProgressCirclePage" options={{ headerShown: false }} />
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    </GestureHandlerRootView>
+    <QueryClientProvider client={queryClient}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ThemeProvider
+          value={colorScheme === "dark" ? CustomDarkTheme : CustomLightTheme}
+        >
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+            <Stack.Screen name="radialBackground"  options={{ headerShown: false }} />
+            <Stack.Screen name="AnimatedHeader" options={{ headerShown: false }} />
+            <Stack.Screen name="TabBarPage" options={{ headerShown: false }} />
+            <Stack.Screen name="SkeletonPage" options={{ headerShown: false }} />
+            <Stack.Screen name="OnboardingPage" options={{ headerShown: false }} />
+            <Stack.Screen name="ImageCarouselPage" options={{ headerShown: false }} />
+            <Stack.Screen name="SwipeSliderPage" options={{ headerShown: false }} />
+            <Stack.Screen name="ProgressCirclePage" options={{ headerShown: false }} />
+            <Stack.Screen name="OtpPage" options={{ headerShown: false }} />
+            <Stack.Screen name="MyInsightsPage" options={{ headerShown: false }} />
+            <Stack.Screen name="TransitioningProgressCirclePage" options={{ headerShown: false }} />
+            <Stack.Screen name="SearchBarPage" options={{ headerShown: false }} />
+          </Stack>
+          <StatusBar style="auto" />
+        </ThemeProvider>
+      </GestureHandlerRootView>
+    </QueryClientProvider>
   );
 }
