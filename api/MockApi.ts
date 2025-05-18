@@ -13,7 +13,7 @@ const DUMMY_DATA_SOURCE = [
     "Google Cloud Platform", "Microsoft Azure Services"
   ];
   
-  export interface SearchResult {
+  export type SearchResult = {
     id: string;
     title: string;
   }

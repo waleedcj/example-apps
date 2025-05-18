@@ -1,7 +1,6 @@
 import React, { useState, useRef, ReactNode } from "react";
 import {
 	View,
-	Text,
 	TouchableOpacity,
 	StyleSheet,
 	LayoutChangeEvent,

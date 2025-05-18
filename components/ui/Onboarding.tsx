@@ -7,7 +7,7 @@ import {
 	Dimensions,
 	TouchableOpacity,
 } from "react-native";
-import LottieView from "lottie-react-native";
+// import LottieView from "lottie-react-native";
 import Animated, {
 	useSharedValue,
 	useAnimatedScrollHandler,
@@ -70,12 +70,12 @@ const Onboarding: React.FC<OnboardingProps> = ({ data, onComplete }) => {
 		};
 		return (
 			<View style={[styles.slide, { width }]}>
-				<LottieView
+				{/* <LottieView
 					source={item.lottieAnim}
 					autoPlay
 					loop
 					style={lottieStyle}
-				/>
+				/> */}
 				<Text style={[styles.title, { color: colors.Neutral900 }]}>
 					{item.title}
 				</Text>

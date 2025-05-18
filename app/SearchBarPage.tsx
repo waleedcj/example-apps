@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import React from "react";
 import { SafeAreaView, StyleSheet, Text, View, Alert, ScrollView, FlatList, Image, TouchableOpacity, Dimensions, Platform } from "react-native";
-import AnimatedSearchBar from "@/components/ui/SearchBar";
+import SearchBar from "@/components/ui/SearchBar";
 import { useAppColors } from "@/hooks/useAppColors";
-import { Ionicons } from "@expo/vector-icons"; // For icons in course cards
+import { Ionicons } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width * 0.7; // Width for featured course cards
@@ -75,10 +75,6 @@ export default function SearchBarPage() {
 		Alert.alert("Search Submitted", `Navigating to search results for: ${term}`);
 	};
 
-	const handleMic = () => {
-		Alert.alert("Mic Pressed", "Voice search functionality coming soon!");
-	};
-
 	const renderFeaturedCourse = ({ item }: { item: (typeof featuredCourses)[0] }) => (
 		<TouchableOpacity style={[styles.featuredCard, { backgroundColor: colors.Neutral0 }]} onPress={() => Alert.alert("Course Selected", item.title)}>
 			<Image source={{ uri: item.image }} style={styles.featuredCardImage} />
@@ -114,19 +110,18 @@ export default function SearchBarPage() {
 			<View style={{ flex: 1 }}>
 				{/* AnimatedSearchBar is outside the ScrollView to remain fixed or behave as a header */}
 				<View style={styles.searchBarContainer}>
-					<AnimatedSearchBar
+					<SearchBar
 						onSearchSubmit={handleSearch}
 						placeholder="Search courses, instructors..."
-						onMicPress={handleMic}
+						searchStartIcon={<Ionicons name="search-outline" size={22} color={colors.Neutral500} style={styles.icon} />}
+                        recentSearchStartIcon={<Ionicons name="time-outline" size={18} color={colors.Neutral500} style={styles.icon} />} 
+                        recentSearchEndIcon={<Ionicons name="close-outline" size={22} color={colors.Neutral300} />}
 						reduceMotion="never"
 						containerBackgroundColor={colors.Neutral0}
 						inputTextColor={colors.Neutral900}
-						searchIconColor={colors.Neutral500}
-						micIconColor={colors.Neutral500}
+						loaderColor={colors.Neutral500}
 						recentSearchesTitleColor={colors.Neutral700}
 						recentSearchTextColor={colors.Neutral900}
-						recentSearchIconColor={colors.Neutral500}
-						recentSearchClearIconColor={colors.Neutral300}
 					/>
 				</View>
 
@@ -180,6 +175,9 @@ const styles = StyleSheet.create({
 	},
 	scrollView: {
 		flex: 1,
+	},
+    icon: {
+		marginRight: 8,
 	},
 	headerContent: {
 		paddingHorizontal: 20,

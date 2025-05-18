@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchSearchResults, SearchResult } from "@/api/MockApi";
 
-interface UseSearchResultsQueryOptions {
+type UseSearchResultsQueryOptions = {
 	searchTerm: string; // The debounced search term
 	minQueryLength: number;
 	isSearchEnabled: boolean; // e.g., isFocused
