@@ -1,5 +1,17 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, Text, View, Alert, ScrollView, FlatList, Image, TouchableOpacity, Dimensions, Platform } from "react-native";
+import {
+	SafeAreaView,
+	StyleSheet,
+	Text,
+	View,
+	Alert,
+	ScrollView,
+	FlatList,
+	Image,
+	TouchableOpacity,
+	Dimensions,
+	Platform,
+} from "react-native";
 import SearchBar from "@/components/ui/SearchBar";
 import { useAppColors } from "@/hooks/useAppColors";
 import { Ionicons } from "@expo/vector-icons";
@@ -14,7 +26,7 @@ const featuredCourses = [
 		id: "1",
 		title: "Advanced React Native Mastery",
 		instructor: "Jane Doe",
-		image: 'https://dummyjson.com/image/300x180/A020F0?fontFamily=pacifico&text=I+am+walid+memon',
+		image: "https://dummyjson.com/image/300x180/A020F0?fontFamily=pacifico&text=I+am+walid+memon",
 		rating: 4.8,
 		students: 1200,
 	},
@@ -76,7 +88,10 @@ export default function SearchBarPage() {
 	};
 
 	const renderFeaturedCourse = ({ item }: { item: (typeof featuredCourses)[0] }) => (
-		<TouchableOpacity style={[styles.featuredCard, { backgroundColor: colors.Neutral0 }]} onPress={() => Alert.alert("Course Selected", item.title)}>
+		<TouchableOpacity
+			style={[styles.featuredCard, { backgroundColor: colors.Neutral0 }]}
+			onPress={() => Alert.alert("Course Selected", item.title)}
+		>
 			<Image source={{ uri: item.image }} style={styles.featuredCardImage} />
 			<View style={styles.featuredCardContent}>
 				<Text style={[styles.featuredCardTitle, { color: colors.Neutral900 }]}>{item.title}</Text>
@@ -114,8 +129,10 @@ export default function SearchBarPage() {
 						onSearchSubmit={handleSearch}
 						placeholder="Search courses, instructors..."
 						searchStartIcon={<Ionicons name="search-outline" size={22} color={colors.Neutral500} style={styles.icon} />}
-                        recentSearchStartIcon={<Ionicons name="time-outline" size={18} color={colors.Neutral500} style={styles.icon} />} 
-                        recentSearchEndIcon={<Ionicons name="close-outline" size={22} color={colors.Neutral300} />}
+						recentSearchStartIcon={
+							<Ionicons name="time-outline" size={18} color={colors.Neutral500} style={styles.icon} />
+						}
+						recentSearchEndIcon={<Ionicons name="close-outline" size={22} color={colors.Neutral300} />}
 						reduceMotion="never"
 						containerBackgroundColor={colors.Neutral0}
 						inputTextColor={colors.Neutral900}
@@ -176,7 +193,7 @@ const styles = StyleSheet.create({
 	scrollView: {
 		flex: 1,
 	},
-    icon: {
+	icon: {
 		marginRight: 8,
 	},
 	headerContent: {
