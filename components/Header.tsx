@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import Animated, {
 	Extrapolation,
 	interpolate,
@@ -52,7 +51,7 @@ export function Header({ headerShown }: HeaderProps) {
 			style={[
 				styles.header,
 				headerAnimatedStyle,
-				{ top: insets.top, backgroundColor: colors.Neutral50 },
+				{ top: insets.top, backgroundColor: colors.Neutral0 },
 			]}
 		>
 			<Animated.View style={[styles.headerContainer, contentAnimatedStyle]}>
@@ -71,7 +70,7 @@ export function Header({ headerShown }: HeaderProps) {
 
 				{/* Right Side: Icons */}
 				<View style={styles.iconContainer}>
-					<TouchableOpacity onPress={() => {}} style={styles.iconButton}>
+					<TouchableOpacity style={styles.iconButton}>
 						<Ionicons
 							name="search-outline"
 							size={24}
@@ -79,19 +78,13 @@ export function Header({ headerShown }: HeaderProps) {
 						/>
 					</TouchableOpacity>
 
-					<TouchableOpacity
-						onPress={() => {
-							// Handle language change
-						}}
-						style={styles.iconButton}
-					>
+					<TouchableOpacity style={styles.iconButton}>
 						<Ionicons
 							name="notifications-outline"
 							size={24}
 							color={colors.Neutral500}
 						/>
 					</TouchableOpacity>
-					{/* <LoadingSpinnerSVG color={colors.Neutral500} /> */}
 				</View>
 			</Animated.View>
 		</Animated.View>

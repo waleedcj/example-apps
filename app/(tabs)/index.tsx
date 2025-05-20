@@ -409,8 +409,13 @@ export default function HomeScreen() {
 							title="TransitioningProgressCirclePage"
 						/>
 							<Button
-							onPress={() => router.navigate('/SearchBarPage')}
+							onPress={() => router.navigate('/SearchBarPage')} 
 							title="SearchBarPage"
+						/>
+
+						<Button
+							onPress={() => router.navigate('/ProgressBarPage')}
+							title="ProgressBarPage"
 						/>
 
 						<View style={styles.securityNote}>

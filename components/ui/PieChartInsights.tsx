@@ -112,6 +112,25 @@ const PieChartInsights: React.FC<PieChartInsightsProps> = ({
     return -( (cumulativeValue / currentTotal) * circ );
   };
 
+  const describeArc = (x: number, y: number, r: number, startAngle: number, endAngle: number): string => {
+    const startRad = (startAngle - 90) * Math.PI / 180; // Subtract 90 to start from top
+    const endRad = (endAngle - 90) * Math.PI / 180;
+
+    const startX = x + r * Math.cos(startRad);
+    const startY = y + r * Math.sin(startRad);
+    const endX = x + r * Math.cos(endRad);
+    const endY = y + r * Math.sin(endRad);
+
+    const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
+
+    const d = [
+      'M', startX, startY,
+      'A', r, r, 0, largeArcFlag, 1, endX, endY,
+    ].join(' ');
+
+    return d;
+  };
+
   let cumulativePercentage = 0;
 
   // For legend layout (2 columns)
@@ -161,7 +180,7 @@ const PieChartInsights: React.FC<PieChartInsightsProps> = ({
                   strokeWidth={strokeWidth}
                   strokeDasharray={strokeDasharray}
                   strokeDashoffset={strokeDashoffset}
-                  strokeLinecap="butt" // or "round" if preferred for segment ends
+                  strokeLinecap="butt" 
                 />
               );
             })}

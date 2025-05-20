@@ -4,7 +4,6 @@ import PieChartInsights, {
 	PieChartDataItem,
 } from "@/components/ui/PieChartInsights";
 import { useAppColors } from "@/hooks/useAppColors";
-import Skeleton from "@/components/ui/Skeleton";
 
 // Example utility if you still have it and want to use it
 const formatCompactNumberCustom = (value: number): string => {
@@ -53,11 +52,6 @@ const MyInsightsPage = () => {
 				<Text style={[screenStyles.header, { color: appColors.Neutral900 }]}>
 					My Activity Insights
 				</Text>
-				<Skeleton
-					isLoading={false}
-					style={screenStyles.skeleton}
-					reduceMotion="never"
-				>
 					<PieChartInsights
 						title="Yesterday's Earned Points"
 						data={chartData}
@@ -84,7 +78,6 @@ const MyInsightsPage = () => {
 						legendItemLabelStyle={{ fontSize: 13 }}
 						legendItemValueStyle={{ fontWeight: "600" }}
 					/>
-				</Skeleton>
 				<Text
 					style={[
 						screenStyles.header,

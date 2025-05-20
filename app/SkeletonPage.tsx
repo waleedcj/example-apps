@@ -19,73 +19,74 @@ export default function SkeletonPage() {
 
 			return () => clearTimeout(timer);
 		}
-	}, [isLoading]); 
+	}, [isLoading]);
 
 	const triggerReload = () => {
-		setIsLoading(true); 
+		setIsLoading(true);
 	};
+
+	// const baseColor = colors.Neutral50;
+	// const shimmerColor = colors.Neutral70;
 
 	const avatarUrl = "https://picsum.photos/100";
 	const name = "Walid Memon";
 	const description = "Software Developer | React Native Enthusiast";
 
 	return (
-		<SafeAreaView  style={styles.screen}>
+		<SafeAreaView style={styles.screen}>
 			{/* Avatar Skeleton/Image */}
-            <View style={[styles.itemContainer]}>
-
-          {/* width and height of the skeleton must be specified */}
-			<Skeleton isLoading={isLoading} style={styles.skeletonAvatar} >
-				<Image source={{ uri: avatarUrl }} style={styles.actualAvatar} />
-			</Skeleton>
-
-			{/* Text Lines Container */}
-			<View style={styles.textContainer}>
-				{/* Name Skeleton/Text */}
-				<Skeleton isLoading={isLoading} style={styles.skeletonLineLong} reduceMotion="never">
-					<Text
-						style={[
-							styles.nameText,
-							{ color: colors.Neutral900 },
-						]}
-						numberOfLines={1}
-					>
-						{name}
-					</Text>
+			<View style={[styles.itemContainer]}>
+				{/* width and height of the skeleton must be specified */}
+				<Skeleton
+					isLoading={isLoading}
+					style={styles.skeletonAvatar}
+					baseColor={colors.Neutral50}
+					shimmerColor={colors.Neutral70}
+				>
+					<Image source={{ uri: avatarUrl }} style={styles.actualAvatar} />
 				</Skeleton>
 
-				{/* Description Skeleton/Text */}
-				<Skeleton isLoading={isLoading} style={styles.skeletonLineShort} reduceMotion="never">
-					<Text
-						style={[
-							styles.descriptionText,
-							{ color: colors.Neutral500 },
-						]}
-						numberOfLines={1}
+				{/* Text Lines Container */}
+				<View style={styles.textContainer}>
+					{/* Name Skeleton/Text */}
+					<Skeleton
+						isLoading={isLoading}
+						style={styles.skeletonLineLong}
+						reduceMotion="never"
+						baseColor={colors.Neutral50}
+						shimmerColor={colors.Neutral70}
 					>
-						{description}
-					</Text>
-				</Skeleton>
+						<Text style={[styles.nameText, { color: colors.Neutral900 }]} numberOfLines={1}>
+							{name}
+						</Text>
+					</Skeleton>
+
+					{/* Description Skeleton/Text */}
+					<Skeleton
+						isLoading={isLoading}
+						style={styles.skeletonLineShort}
+						reduceMotion="never"
+						baseColor={colors.Neutral50}
+						shimmerColor={colors.Neutral70}
+					>
+						<Text style={[styles.descriptionText, { color: colors.Neutral500 }]} numberOfLines={1}>
+							{description}
+						</Text>
+					</Skeleton>
+				</View>
 			</View>
-            </View>
-            <Button
-                title={'Reload Animation'}
-                onPress={triggerReload}
-                disabled={isLoading}
-                color={colors.PrimaryNormal}
-            />
+			<Button title={"Reload Animation"} onPress={triggerReload} disabled={isLoading} color={colors.PrimaryNormal} />
 		</SafeAreaView>
 	);
 }
 
-
 const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        paddingTop: 50,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
+	screen: {
+		flex: 1,
+		paddingTop: 50,
+		alignItems: "center",
+		justifyContent: "center",
+	},
 	itemContainer: {
 		flexDirection: "row",
 		alignItems: "center",
@@ -99,14 +100,14 @@ const styles = StyleSheet.create({
 		marginRight: 12,
 	},
 	textContainer: {
-		flex: 1, 
+		flex: 1,
 		justifyContent: "center",
 	},
 	skeletonLineLong: {
-		height: 18, 
-		width: "95%", 
+		height: 18,
+		width: "95%",
 		borderRadius: 4,
-		marginBottom: 8, 
+		marginBottom: 8,
 	},
 	skeletonLineShort: {
 		height: 14,
@@ -121,8 +122,8 @@ const styles = StyleSheet.create({
 	nameText: {
 		fontSize: 16,
 		fontWeight: "600",
-		lineHeight: 18, 
-		marginBottom: 8, 
+		lineHeight: 18,
+		marginBottom: 8,
 	},
 	descriptionText: {
 		fontSize: 12,

@@ -17,11 +17,12 @@ import Animated, {
 	ReduceMotion,
 } from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
-import { useAppColors } from "@/hooks/useAppColors";
 
 type SkeletonProps = {
 	isLoading: boolean;
-	children: ReactNode;
+	baseColor: string; // Background color of the skeleton
+	shimmerColor: string; // Color of the moving shimmer highlight
+	children?: ReactNode;
 	style: StyleProp<ViewStyle>;
 	duration?: number;
 	delay?: number;
@@ -33,15 +34,15 @@ const GRADIENT_WIDTH_PERCENTAGE = 1; //how wide you want the gradient to be
 const Skeleton: React.FC<SkeletonProps> = ({
 	isLoading,
 	children,
+	baseColor,
+	shimmerColor,
 	style,
 	duration = 1000,
     reduceMotion = 'system'
 }) => {
-	const colors = useAppColors();
 	const sharedValue = useSharedValue(0);
 	const componentWidth = useSharedValue(0);
-	const baseColor = colors.Neutral50;
-	const shimmerColor = colors.Neutral70;
+
 
     const motion =
 		reduceMotion === "never"
@@ -123,7 +124,7 @@ const Skeleton: React.FC<SkeletonProps> = ({
 			</Animated.View>
 		</View>
 	) : (
-		<>{children}</>
+		children ? <>{children}</> : null
 	);
 };
 

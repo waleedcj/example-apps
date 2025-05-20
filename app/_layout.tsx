@@ -65,6 +65,7 @@ export default function RootLayout() {
             <Stack.Screen name="MyInsightsPage" options={{ headerShown: false }} />
             <Stack.Screen name="TransitioningProgressCirclePage" options={{ headerShown: false }} />
             <Stack.Screen name="SearchBarPage" options={{ headerShown: false }} />
+            <Stack.Screen name="ProgressBarPage" options={{ headerShown: false }} />
           </Stack>
           <StatusBar style="auto" />
         </ThemeProvider>
