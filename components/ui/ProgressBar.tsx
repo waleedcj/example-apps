@@ -124,12 +124,11 @@ const styles = StyleSheet.create({
 		// New container for the gradient, its width is animated
 		height: "100%",
 		position: "absolute",
-		left: 0, // Ensure it starts from the left
-		// borderRadius is applied to the LinearGradient itself for clipping
+		left: 0,
 	},
 	gradientFill: {
 		// The LinearGradient fills its animated container
-		...StyleSheet.absoluteFillObject, // Make gradient fill the animated container
+		...StyleSheet.absoluteFillObject,
 	},
 	textContainer: {
 		...StyleSheet.absoluteFillObject,

@@ -414,9 +414,14 @@ export default function HomeScreen() {
 						/>
 
 						<Button
-							onPress={() => router.navigate('/ProgressBarPage')}
+							onPress={() => router.navigate('/ProgressBarPage')} 
 							title="ProgressBarPage"
 						/>
+
+						<Button
+							onPress={() => router.navigate('/DropdownPickerPage')} 
+							title="DropdownPickerPage"
+						/>				
 
 						<View style={styles.securityNote}>
 							<Ionicons name="lock-closed" size={16} color="#6B7280" />
