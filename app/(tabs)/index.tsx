@@ -13,18 +13,10 @@ import {
 	Button,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import {
-	Ionicons,
-	Octicons,
-	MaterialCommunityIcons,
-	MaterialIcons,
-} from "@expo/vector-icons";
+import { Ionicons, Octicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import SmoothBorderTextInput from "@/components/ui/textInput/SmoothBorderTextInput";
-import Animated, {
-	useAnimatedKeyboard,
-	useAnimatedStyle,
-} from "react-native-reanimated";
+import Animated, { useAnimatedKeyboard, useAnimatedStyle } from "react-native-reanimated";
 import { SmoothBackgroundButton } from "@/components/ui/Buttons/SmoothBackgroundButton";
 import { ScaleAnimatedButton } from "@/components/ui/Buttons/ScaleAnimatedButton";
 import { ShadowAnimatedButton } from "@/components/ui/Buttons/ShadowAnimatedButton";
@@ -33,7 +25,7 @@ import { IconAnimatedButton } from "@/components/ui/Buttons/IconAnimatedButton";
 import { StepAnimatedButton } from "@/components/ui/Buttons/StepAnimatedButton";
 import { GradientButton } from "@/components/ui/Buttons/GradientButton";
 import { PulseAnimatedButton } from "@/components/ui/Buttons/PulseAnimatedButton";
-import { useRouter } from 'expo-router';
+import { useRouter } from "expo-router";
 
 export default function HomeScreen() {
 	const { colors } = useTheme();
@@ -59,14 +51,7 @@ export default function HomeScreen() {
 		}, 2500); // Stop loading after 2.5 seconds
 	};
 
-	const Icon = (
-		<MaterialCommunityIcons
-			accessible={false}
-			color={colors.Neutral700}
-			name="send"
-			size={18}
-		/>
-	);
+	const Icon = <MaterialCommunityIcons accessible={false} color={colors.Neutral0} name="send" size={18} />;
 
 	const download = () => {
 		setCurrentStep(1);
@@ -173,54 +158,33 @@ export default function HomeScreen() {
 
 	return (
 		<SafeAreaView style={styles.safeArea}>
-			<KeyboardAvoidingView
-				behavior={Platform.OS === "ios" ? "padding" : "height"}
-				style={styles.keyboardAvoid}
-			>
-				<ScrollView
-					contentContainerStyle={styles.scrollContainer}
-					showsVerticalScrollIndicator={false}
-				>
+			<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.keyboardAvoid}>
+				<ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
 					<View style={styles.formHeader}>
 						<View style={styles.securePaymentRow}>
 							<Ionicons name="shield-checkmark" size={22} color="#10B981" />
 							<Text style={styles.securePaymentText}>Secure Payment</Text>
 						</View>
 						<Text style={styles.formTitle}>Payment Details</Text>
-						<Text style={styles.formSubtitle}>
-							Complete your purchase by providing your payment details
-						</Text>
+						<Text style={styles.formSubtitle}>Complete your purchase by providing your payment details</Text>
 					</View>
 
 					<View style={styles.cardIllustration}>
-						<View
-							style={[
-								styles.cardPreview,
-								{ backgroundColor: cardBrand?.color || "#6366F1" },
-							]}
-						>
+						<View style={[styles.cardPreview, { backgroundColor: cardBrand?.color || "#6366F1" }]}>
 							<View style={styles.cardChip}>
-								{cardBrand && (
-									<Text style={styles.cardBrandText}>{cardBrand.name}</Text>
-								)}
+								{cardBrand && <Text style={styles.cardBrandText}>{cardBrand.name}</Text>}
 							</View>
 
-							<Text style={styles.cardNumberPreview}>
-								{formData.cardNumber || "•••• •••• •••• ••••"}
-							</Text>
+							<Text style={styles.cardNumberPreview}>{formData.cardNumber || "•••• •••• •••• ••••"}</Text>
 
 							<View style={styles.cardDetails}>
 								<View>
 									<Text style={styles.cardDetailLabel}>CARD HOLDER</Text>
-									<Text style={styles.cardDetailValue}>
-										{formData.cardName || "Your Name"}
-									</Text>
+									<Text style={styles.cardDetailValue}>{formData.cardName || "Your Name"}</Text>
 								</View>
 								<View>
 									<Text style={styles.cardDetailLabel}>EXPIRES</Text>
-									<Text style={styles.cardDetailValue}>
-										{formData.expiryDate || "MM/YY"}
-									</Text>
+									<Text style={styles.cardDetailValue}>{formData.expiryDate || "MM/YY"}</Text>
 								</View>
 							</View>
 						</View>
@@ -235,12 +199,7 @@ export default function HomeScreen() {
 							onChangeText={(text) => handleChange("cardName", text)}
 							backgroundColor={colors.background}
 							startIcon={
-								<AntDesign
-									name="user"
-									size={18}
-									style={{ left: 12, marginRight: 4 }}
-									color={colors.Neutral300}
-								/>
+								<AntDesign name="user" size={18} style={{ left: 12, marginRight: 4 }} color={colors.Neutral300} />
 							}
 							isError={errors.cardName}
 							errorMessage="Cardholder name is required"
@@ -312,61 +271,76 @@ export default function HomeScreen() {
 							<Text style={styles.payButtonText}>Pay Now</Text>
 						</TouchableOpacity> */}
 						<PulseAnimatedButton
-							onPress={() => router.navigate('/ImageCarouselPage')}
+							buttonColor={colors.AuxColorTwo}
+							textColor={colors.Neutral0}
+							buttonTouchColor={colors.AuxColorThree}
+							onPress={() => router.navigate("/ImageCarouselPage")}
 							title="Pay Up"
 							reduceMotion="never"
 						/>
 						<ShadowAnimatedButton
-						onPress={() => router.navigate('/SwipeSliderPage')}
+							buttonColor={colors.AuxColorTwo}
+							textColor={colors.Neutral0}
+							buttonShadowColor={colors.AuxColorThree}
+							onPress={() => router.navigate("/SwipeSliderPage")}
 							title="Pay Up"
 							reduceMotion="never"
 							Icon={Icon}
 						/>
 						<IconAnimatedButton
-							onPress={() => router.navigate('/ProgressCirclePage')}
+							buttonColor={colors.AuxColorTwo}
+							textColor={colors.Neutral0}
+							onPress={() => router.navigate("/ProgressCirclePage")}
 							title="Pay Up"
 							reduceMotion="never"
 							Icon={Icon}
 						/>
 						<SmoothBackgroundButton
-							onPress={() => router.navigate('/TabBarPage')}
+							buttonColor={colors.AuxColorTwo}
+							textColor={colors.Neutral0}
+							buttonTouchColor={colors.AuxColorThree}
+							onPress={() => router.navigate("/TabBarPage")}
 							isLoading={isLoading}
 							title="Pay Up"
 							reduceMotion="never"
 							Icon={Icon}
 						/>
 						<ScaleAnimatedButton
-								onPress={() => router.navigate('/SkeletonPage')}
+							buttonColor={colors.AuxColorTwo}
+							textColor={colors.Neutral0}
+							onPress={() => router.navigate("/SkeletonPage")}
 							isLoading={isLoading}
 							// isDisabled={true}
 							title="Pay Up"
 							reduceMotion="never"
-							Icon={
-								<MaterialIcons
-									name="payment"
-									size={24}
-									color={colors.Neutral700}
-								/>
-							}
+							Icon={<MaterialIcons name="payment" size={24} color={colors.Neutral0} />}
 						/>
 						<ThreeDimensionAnimatedButton
-							onPress={() => router.navigate('/AnimatedHeader')}
+							buttonColor={colors.AuxColorTwo}
+							textColor={colors.Neutral0}
+							buttonShadowColor={colors.AuxColorThree}
+							onPress={() => router.navigate("/AnimatedHeader")}
 							title="Pay Up"
 							reduceMotion="never"
 						/>
-						<GradientButton onPress={() => router.navigate('/OnboardingPage')} title="Pay Up" />
+						<GradientButton
+							buttonColorOne={colors.AuxColorThree}
+							buttonColorTwo={colors.AuxColorTwo}
+							textColor={colors.Neutral0}
+							onPress={() => router.navigate("/OnboardingPage")}
+							title="Pay Up"
+						/>
 						<StepAnimatedButton
+							buttonColor={colors.AuxColorTwo}
+							textColor={colors.Neutral0}
+							buttonTouchColor={colors.AuxColorThree}
 							currentStep={currentStep}
+							reduceMotion="never"
 							onPress={download}
 							steps={[
 								{
 									Icon: (
-										<MaterialCommunityIcons
-											accessible={false}
-											color={colors.Neutral700}
-											name="download"
-											size={18}
-										/>
+										<MaterialCommunityIcons accessible={false} color={colors.Neutral0} name="download" size={18} />
 									),
 									title: "Download",
 								},
@@ -374,7 +348,7 @@ export default function HomeScreen() {
 									Icon: (
 										<MaterialCommunityIcons
 											accessible={false}
-											color={colors.Neutral700}
+											color={colors.Neutral0}
 											name="progress-download"
 											size={18}
 										/>
@@ -382,52 +356,29 @@ export default function HomeScreen() {
 									title: "Downloading...",
 								},
 								{
-									Icon: (
-										<MaterialCommunityIcons
-											accessible={false}
-											color={colors.Neutral700}
-											name="check"
-											size={18}
-										/>
-									),
+									Icon: <MaterialCommunityIcons accessible={false} color={colors.Neutral0} name="check" size={18} />,
 									title: "Downloaded",
 								},
 							]}
-							reduceMotion="system"
 						/>
+						<Button onPress={() => router.navigate("/OtpPage")} title="OTPPAGE" />
+						<Button onPress={() => router.navigate("/MyInsightsPage")} title="Insights" />
+
 						<Button
-							onPress={() => router.navigate('/OtpPage')}
-							title="OTPPAGE"
-						/>
-							<Button
-							onPress={() => router.navigate('/MyInsightsPage')} 
-							title="Insights"
-						/>
-						
-							<Button
-							onPress={() => router.navigate('/TransitioningProgressCirclePage')}
+							onPress={() => router.navigate("/TransitioningProgressCirclePage")}
 							title="TransitioningProgressCirclePage"
 						/>
-							<Button
-							onPress={() => router.navigate('/SearchBarPage')} 
-							title="SearchBarPage"
-						/>
+						<Button onPress={() => router.navigate("/SearchBarPage")} title="SearchBarPage" />
 
-						<Button
-							onPress={() => router.navigate('/ProgressBarPage')} 
-							title="ProgressBarPage"
-						/>
+						<Button onPress={() => router.navigate("/ProgressBarPage")} title="ProgressBarPage" />
 
-						<Button
-							onPress={() => router.navigate('/DropdownPickerPage')} 
-							title="DropdownPickerPage"
-						/>				
+						<Button onPress={() => router.navigate("/DropdownPickerPage")} title="DropdownPickerPage" />
+
+						<Button onPress={() => router.navigate("/ButtonsPage")} title="ButtonsPage" />
 
 						<View style={styles.securityNote}>
 							<Ionicons name="lock-closed" size={16} color="#6B7280" />
-							<Text style={styles.securityText}>
-								Your data is encrypted and secure. We respect your privacy.
-							</Text>
+							<Text style={styles.securityText}>Your data is encrypted and secure. We respect your privacy.</Text>
 						</View>
 					</View>
 				</ScrollView>

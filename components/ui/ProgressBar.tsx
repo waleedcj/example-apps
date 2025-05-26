@@ -5,10 +5,10 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export type ProgressBarProps = {
 	progress: number; // Value between 0 and 1
-  height: number;
+  	height: number;
 	width: number;
 	text?: string;
-	icon?: React.ReactNode;
+	icon?: React.ReactElement;
 	iconGap?: number; //if gap is not added icon container is as big as the height of the bar
 	iconContainerColor?: string;
 	animationDuration?: number;

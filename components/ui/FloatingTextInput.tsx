@@ -26,7 +26,7 @@ import {
   
   type FloatingTextInputProps = {
 	containerStyle?: StyleProp<ViewStyle>;
-	startIcon?: React.ReactNode;
+	startIcon?: React.ReactElement;
 	backgroundColor: string;
 	label: string;
 	isFocusLabelColor?: string;

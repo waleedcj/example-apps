@@ -3,7 +3,6 @@ import { StyleSheet, TouchableOpacity, Text, View, Image } from "react-native";
 import RadialGradientBackground from "@/components/ui/RadialGradientBackground";
 import { useAppColors } from "@/hooks/useAppColors";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Slider from "@/components/ui/Slider";
 const outlineIcon = require("@/assets/images/favicon.png");
 
 export default function radialBackground() {

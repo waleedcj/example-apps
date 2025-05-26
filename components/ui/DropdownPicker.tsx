@@ -41,7 +41,7 @@ type DropdownPickerProps<TItem extends DropdownPickerItem> = {
 	selectedValue?: TItem | null;
 	triggerContainerStyle?: StyleProp<ViewStyle>;
 	triggerTextStyle?: StyleProp<TextStyle>;
-	triggerIcon?: React.ReactNode;
+	triggerIcon?: React.ReactElement;
 	dropdownBackgroundColor?: string;
 	dropdownMaxHeight?: number; // User-defined max height for the list itself
 	dropdownItemTextStyle?: StyleProp<TextStyle>;

@@ -13,9 +13,8 @@ import Animated, {
     withSequence,
     withTiming,
 } from "react-native-reanimated";
-import { useAppColors } from '@/hooks/useAppColors';
 
-export interface PulsingButtonProps {
+export type PulsingButtonProps = {
     accessibilityHint?: string;
     accessibilityLabel?: string;
     Icon?: ReactElement;
@@ -23,13 +22,19 @@ export interface PulsingButtonProps {
     isLoading?: boolean;
     onPress: () => void;
     title: string;
+    buttonColor: string;
+    buttonTouchColor: string;
+    textColor: string;
     reduceMotion?: "never" | "always" | "system";
 }
 
-export interface PulseProps {
+export type PulseProps = {
     index: number;
+    pulseColor: string
+    reduceMotion: string;
     isDisabled?: boolean;
     isLoading?: boolean;
+
 }
 
 const BACKGROUND_TRANSITION_DURATION = 300;
@@ -39,35 +44,15 @@ const NUMBER_OF_PULSES = 2;
 const PULSE_TRANSITION_DURATION = 2000;
 const PULSE_DELAY = 700;
 
-const styles = StyleSheet.create({
-    container: {
-        alignItems: "center",
-        borderRadius: BORDER_RADIUS,
-        flexDirection: "row",
-        gap: 8,
-        height: HEIGHT,
-        justifyContent: "center",
-        paddingHorizontal: 12,
-        paddingVertical: 8,
-    },
-    pulse: {
-        // backgroundColor: theme.colors.primary,
-        borderRadius: BORDER_RADIUS,
-        height: HEIGHT,
-        position: "absolute",
-        width: "100%",
-    },
-    title: {
-        // color: theme.colors.textInverted,
-        flexShrink: 1,
-        fontSize: 18,
-        fontWeight: "600",
-    },
-});
-
-const Pulse = ({ index, isDisabled, isLoading }: PulseProps) => {
+const Pulse = ({ index, isDisabled, isLoading, pulseColor, reduceMotion }: PulseProps) => {
     const transition = useSharedValue(0);
-    const  colors  = useAppColors();
+
+    const motion =
+    reduceMotion === "never"
+        ? ReduceMotion.Never
+        : reduceMotion === "always"
+            ? ReduceMotion.Always
+            : ReduceMotion.System;
 
     useEffect(() => {
         if (isDisabled || isLoading) {
@@ -85,11 +70,15 @@ const Pulse = ({ index, isDisabled, isLoading }: PulseProps) => {
                             PULSE_TRANSITION_DURATION +
                             PULSE_DELAY * (NUMBER_OF_PULSES - index - 1),
                         easing: Easing.out(Easing.ease),
+                        reduceMotion: motion
                     })
                 ),
                 withTiming(0, { duration: 0 })
             ),
-            -1
+            -1,
+            false,
+            () => {},
+            motion
         );
 
         return () => {
@@ -106,7 +95,7 @@ const Pulse = ({ index, isDisabled, isLoading }: PulseProps) => {
         ],
     }));
 
-    return <Animated.View style={[styles.pulse, animatedStyle, {backgroundColor: colors.PrimaryNormal}]} />;
+    return <Animated.View style={[styles.pulse, animatedStyle, {backgroundColor: pulseColor}]} />;
 };
 
 export const PulseAnimatedButton = ({
@@ -117,11 +106,13 @@ export const PulseAnimatedButton = ({
     isLoading = false,
     onPress,
     title,
+    buttonColor,
+    buttonTouchColor,
+    textColor,
     reduceMotion = "system",
 }: PulsingButtonProps) => {
     const backgroundTransition = useSharedValue(0);
     const isActive = useSharedValue(false);
-    const colors = useAppColors();
 
     const motion =
     reduceMotion === "never"
@@ -134,7 +125,7 @@ export const PulseAnimatedButton = ({
         backgroundColor: interpolateColor(
             backgroundTransition.value,
             [0, 1],
-            [colors.PrimaryNormal, colors.PrimaryDisable]
+            [buttonColor, buttonTouchColor]
         ),
     }));
 
@@ -179,8 +170,10 @@ export const PulseAnimatedButton = ({
                 <Pulse
                     key={index}
                     index={index}
+                    reduceMotion={reduceMotion}
                     isDisabled={isDisabled}
                     isLoading={isLoading}
+                    pulseColor={buttonColor}
                 />
             ))}
             <Animated.View
@@ -192,13 +185,13 @@ export const PulseAnimatedButton = ({
             >
                 {isLoading ? (
                     <ActivityIndicator
-                        color={colors.Neutral700}
+                        color={textColor}
                         size={18}
                     />
                 ) : (
                     <>
                         {Icon}
-                        <Text numberOfLines={1} style={[styles.title, {color: colors.Neutral700}]}>
+                        <Text numberOfLines={1} style={[styles.title, {color: textColor}]}>
                             {title}
                         </Text>
                     </>
@@ -207,3 +200,29 @@ export const PulseAnimatedButton = ({
         </Pressable>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        alignItems: "center",
+        borderRadius: BORDER_RADIUS,
+        flexDirection: "row",
+        gap: 8,
+        height: HEIGHT,
+        justifyContent: "center",
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+    },
+    pulse: {
+        // backgroundColor: theme.colors.primary,
+        borderRadius: BORDER_RADIUS,
+        height: HEIGHT,
+        position: "absolute",
+        width: "100%",
+    },
+    title: {
+        // color: theme.colors.textInverted,
+        flexShrink: 1,
+        fontSize: 18,
+        fontWeight: "600",
+    },
+});

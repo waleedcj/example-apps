@@ -51,6 +51,7 @@ export default function RootLayout() {
           value={colorScheme === "dark" ? CustomDarkTheme : CustomLightTheme}
         >
           <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />
             <Stack.Screen name="radialBackground"  options={{ headerShown: false }} />
@@ -66,7 +67,8 @@ export default function RootLayout() {
             <Stack.Screen name="TransitioningProgressCirclePage" options={{ headerShown: false }} />
             <Stack.Screen name="SearchBarPage" options={{ headerShown: false }} />
             <Stack.Screen name="ProgressBarPage" options={{ headerShown: false }} />
-            <Stack.Screen name="DropdownPickerPage" options={{ headerShown: false }} />
+            <Stack.Screen name="DropdownPickerPage" options={{ headerShown: false }} />  
+            <Stack.Screen name="ButtonsPage" options={{ headerShown: false }} /> 
           </Stack>
           <StatusBar style="auto" />
         </ThemeProvider>

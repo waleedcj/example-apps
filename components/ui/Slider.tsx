@@ -54,7 +54,7 @@ type SwipeSliderProps = {
 	textColor: string;
 	initialText: string;
 	completeText: string;
-	icon: React.ReactNode;
+	icon: React.ReactElement;
 	trackStyle?: StyleProp<ViewStyle>;
 	handleStyle?: StyleProp<ViewStyle>;
 	textStyle?: StyleProp<TextStyle>;

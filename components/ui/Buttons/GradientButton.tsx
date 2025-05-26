@@ -1,19 +1,88 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { ReactElement } from "react"; // Removed useState, useEffect
+import { ReactElement } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
-import { useAppColors } from '@/hooks/useAppColors';
 
-export interface AnimatedGradientBackgroundButtonProps {
+export type AnimatedGradientBackgroundButtonProps = {
+    onPress: () => void;
+    buttonColorOne: string;
+    buttonColorTwo: string;
+    textColor: string;
+    title: string;
     accessibilityHint?: string;
     accessibilityLabel?: string;
     Icon?: ReactElement;
     isDisabled?: boolean;
     isLoading?: boolean;
-    onPress: () => void;
-    title: string;
 }
 
 const HEIGHT = 42;
+
+export const GradientButton = ({
+    buttonColorOne,
+    buttonColorTwo,
+    textColor,
+    accessibilityHint,
+    accessibilityLabel,
+    Icon,
+    isDisabled = false,
+    isLoading = false,
+    onPress,
+    title,
+}: AnimatedGradientBackgroundButtonProps) => {
+    return (
+        <Pressable
+            accessibilityHint={accessibilityHint}
+            accessibilityLabel={accessibilityLabel}
+            accessibilityRole="button"
+            accessibilityState={{
+                busy: isLoading,
+                disabled: isDisabled || isLoading,
+            }}
+            disabled={isDisabled || isLoading}
+            
+            onPress={onPress}
+        >
+            {({ pressed }) => (
+                <View
+                    // Removed onLayout
+                    style={[
+                        styles.outerContainer,
+                        // Apply opacity for disabled state to the whole container
+                        { opacity: isDisabled ? 0.5 : 1 },
+                    ]}
+                >
+                    {/* Static LinearGradient as the background */}
+                    <LinearGradient
+                        colors={[buttonColorOne, buttonColorTwo]}
+                        end={{ x: 1, y: 1 }}
+                        start={{ x: 0, y: 1 }}
+                        style={styles.linearGradient} // Use simplified style
+                    />
+                    <View
+                        style={[
+                            styles.contentContainer,
+                            {
+                                // Apply press effect by changing background (overlay)
+                                opacity: pressed && !isDisabled ? 0.5 : 1,
+                            },
+                        ]}
+                    >
+                        {isLoading ? (
+                            <ActivityIndicator color={textColor} size={18} /> // Changed color to contrast potentially lighter gradients
+                        ) : (
+                            <>
+                                {Icon}
+                                <Text numberOfLines={1} style={[styles.title, {color: textColor}]}>
+                                    {title}
+                                </Text>
+                            </>
+                        )}
+                    </View>
+                </View>
+            )}
+        </Pressable>
+    );
+};
 
 const styles = StyleSheet.create({
     contentContainer: { 
@@ -48,69 +117,3 @@ const styles = StyleSheet.create({
         fontWeight: "600",
     },
 });
-
-export const GradientButton = ({
-    accessibilityHint,
-    accessibilityLabel,
-    Icon,
-    isDisabled = false,
-    isLoading = false,
-    onPress,
-    title,
-}: AnimatedGradientBackgroundButtonProps) => {
-    const colors = useAppColors();
-
-    return (
-        <Pressable
-            accessibilityHint={accessibilityHint}
-            accessibilityLabel={accessibilityLabel}
-            accessibilityRole="button"
-            accessibilityState={{
-                busy: isLoading,
-                disabled: isDisabled || isLoading,
-            }}
-            disabled={isDisabled || isLoading}
-            
-            onPress={onPress}
-        >
-            {({ pressed }) => (
-                <View
-                    // Removed onLayout
-                    style={[
-                        styles.outerContainer,
-                        // Apply opacity for disabled state to the whole container
-                        { opacity: isDisabled ? 0.5 : 1 },
-                    ]}
-                >
-                    {/* Static LinearGradient as the background */}
-                    <LinearGradient
-                        colors={[colors.PrimaryNormal, colors.PrimaryDisable]}
-                        end={{ x: 1, y: 1 }}
-                        start={{ x: 0, y: 1 }}
-                        style={styles.linearGradient} // Use simplified style
-                    />
-                    <View
-                        style={[
-                            styles.contentContainer,
-                            {
-                                // Apply press effect by changing background (overlay)
-                                backgroundColor: pressed && !isDisabled ? colors.PrimaryDisable : "transparent",
-                            },
-                        ]}
-                    >
-                        {isLoading ? (
-                            <ActivityIndicator color={colors.Neutral700} size={18} /> // Changed color to contrast potentially lighter gradients
-                        ) : (
-                            <>
-                                {Icon}
-                                <Text numberOfLines={1} style={[styles.title, {color: colors.Neutral700}]}>
-                                    {title}
-                                </Text>
-                            </>
-                        )}
-                    </View>
-                </View>
-            )}
-        </Pressable>
-    );
-};

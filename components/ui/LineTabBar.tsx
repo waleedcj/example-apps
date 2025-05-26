@@ -21,7 +21,7 @@ import { useAppColors } from "@/hooks/useAppColors";
 export type TabItem = {
 	id: string;
 	title: string;
-	icon?: React.ReactNode;
+	icon?: React.ReactElement;
 	content: React.ReactNode;
 };
 

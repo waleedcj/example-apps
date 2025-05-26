@@ -27,7 +27,7 @@ type TransitioningProgressCircleProps = {
 	animationDuration?: number; // Duration for progress animation
 	successAnimationDuration?: number; // Duration for success icon animation
 	children?: React.ReactNode;
-	endIcon?: React.ReactNode;
+	endIcon?: React.ReactElement;
 	endIconColor?: string;
 	containerStyle?: StyleProp<ViewStyle>;
 	reduceMotion?: "never" | "always" | "system";

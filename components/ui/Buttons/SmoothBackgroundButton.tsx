@@ -7,9 +7,8 @@ import Animated, {
 	withTiming,
 	ReduceMotion,
 } from "react-native-reanimated";
-import { useAppColors } from '@/hooks/useAppColors';
 
-export interface AnimatedBackgroundButtonProps {
+export type AnimatedBackgroundButtonProps = {
 	accessibilityHint?: string;
 	accessibilityLabel?: string;
 	Icon?: ReactElement;
@@ -17,6 +16,9 @@ export interface AnimatedBackgroundButtonProps {
 	isLoading?: boolean;
 	onPress: () => void;
 	title: string;
+	buttonColor: string;
+    buttonTouchColor: string;
+    textColor: string;
 	reduceMotion?: "never" | "always" | "system";
 }
 
@@ -34,7 +36,6 @@ const styles = StyleSheet.create({
 		paddingVertical: 8,
 	},
 	title: {
-		// color: theme.colors.textInverted,
 		flexShrink: 1,
 		fontSize: 18,
 		fontWeight: "600",
@@ -49,11 +50,13 @@ export const SmoothBackgroundButton = ({
 	isLoading = false,
 	onPress,
 	title,
+	buttonColor,
+    buttonTouchColor,
+    textColor,
 	reduceMotion = "system",
 }: AnimatedBackgroundButtonProps) => {
 	const transition = useSharedValue(0);
 	const isActive = useSharedValue(false);
-	const colors = useAppColors();
 
 	const motion =
 		reduceMotion === "never"
@@ -66,7 +69,7 @@ export const SmoothBackgroundButton = ({
 		backgroundColor: interpolateColor(
 			transition.value,
 			[0, 1],
-			[colors.PrimaryNormal, colors.PrimaryLightBackground]
+			[buttonColor, buttonTouchColor]
 		),
 	}));
 
@@ -84,10 +87,11 @@ export const SmoothBackgroundButton = ({
 			onPress={onPress}
 			onPressIn={() => {
 				isActive.value = true;
-				transition.value = withTiming(1, { duration: DURATION }, () => {
+				transition.value = withTiming(1, { duration: DURATION, reduceMotion: motion }, () => {
 					if (!isActive.value) {
 						transition.value = withTiming(0, {
 							duration: DURATION,
+							reduceMotion: motion
 						});
 					}
 				});
@@ -110,13 +114,13 @@ export const SmoothBackgroundButton = ({
 				]}
 			>
 				{isLoading ? (
-					<ActivityIndicator color={colors.Neutral700} size={18} />
+					<ActivityIndicator color={textColor} size={18} />
 				) : (
 					<>
 						{Icon}
 						<Text
 							numberOfLines={1}
-							style={[styles.title, { color: colors.Neutral50 }]}
+							style={[styles.title, { color: textColor }]}
 						>
 							{title}
 						</Text>

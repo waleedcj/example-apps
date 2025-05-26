@@ -13,9 +13,8 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from "react-native-reanimated";
-import { useAppColors } from '@/hooks/useAppColors';
 
-export interface AnimatedShadowButtonProps {
+export type AnimatedShadowButtonProps = {
 	accessibilityHint?: string;
 	accessibilityLabel?: string;
 	elevation?: number;
@@ -23,30 +22,14 @@ export interface AnimatedShadowButtonProps {
 	isDisabled?: boolean;
 	isLoading?: boolean;
 	onPress: () => void;
+	buttonColor: string;
+	buttonShadowColor: string;
+    textColor: string;
 	title: string;
 	reduceMotion?: "never" | "always" | "system";
 }
 
-const DURATION = 300;
-
-const styles = StyleSheet.create({
-	container: {
-		alignItems: "center",
-		borderRadius: 8,
-		flexDirection: "row",
-		gap: 8,
-		height: 42,
-		justifyContent: "center",
-		paddingHorizontal: 12,
-		paddingVertical: 8,
-		shadowOpacity: 0.5,
-	},
-	title: {
-		flexShrink: 1,
-		fontSize: 18,
-		fontWeight: "600",
-	},
-});
+const DURATION = 100;
 
 export const ShadowAnimatedButton = ({
 	accessibilityHint,
@@ -57,11 +40,13 @@ export const ShadowAnimatedButton = ({
 	isLoading = false,
 	onPress,
 	title,
+	buttonColor,
+	buttonShadowColor,
+    textColor,
 	reduceMotion = "system",
 }: AnimatedShadowButtonProps) => {
 	const transition = useSharedValue(0);
 	const isActive = useSharedValue(false);
-	const colors = useAppColors();
 
 	const motion =
 		reduceMotion === "never"
@@ -102,7 +87,7 @@ export const ShadowAnimatedButton = ({
 			onPress={onPress}
 			onPressIn={() => {
 				isActive.value = true;
-				transition.value = withTiming(1, { duration: DURATION }, () => {
+				transition.value = withTiming(1, { duration: DURATION, reduceMotion: motion, }, () => {
 					if (!isActive.value) {
 						transition.value = withTiming(0, {
 							duration: DURATION,
@@ -127,19 +112,19 @@ export const ShadowAnimatedButton = ({
 					animatedStyle,
 					{
 						opacity: isDisabled ? 0.5 : 1,
-						backgroundColor: colors.PrimaryNormal,
-						shadowColor: colors.Neutral300,
+						backgroundColor: buttonColor,
+						shadowColor: buttonShadowColor,
 					},
 				]}
 			>
 				{isLoading ? (
-					<ActivityIndicator color={colors.Neutral700} size={18} />
+					<ActivityIndicator color={textColor} size={18} />
 				) : (
 					<>
 						{Icon}
 						<Text
 							numberOfLines={1}
-							style={[styles.title, { color: colors.Neutral700 }]}
+							style={[styles.title, { color: textColor }]}
 						>
 							{title}
 						</Text>
@@ -149,3 +134,22 @@ export const ShadowAnimatedButton = ({
 		</Pressable>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		alignItems: "center",
+		borderRadius: 8,
+		flexDirection: "row",
+		gap: 8,
+		height: 42,
+		justifyContent: "center",
+		paddingHorizontal: 12,
+		paddingVertical: 8,
+		shadowOpacity: 0.5,
+	},
+	title: {
+		flexShrink: 1,
+		fontSize: 18,
+		fontWeight: "600",
+	},
+});

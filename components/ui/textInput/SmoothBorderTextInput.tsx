@@ -23,7 +23,7 @@ type SmoothBorderTextInputProps = {
 	containerStyle?: StyleProp<ViewStyle>;
 	backgroundColor: string;
 	label: string;
-	startIcon?: React.ReactNode;
+	startIcon?: React.ReactElement;
 	isError?: boolean;
 	errorMessage?: string;
 	isFocusLabelColor?: string;
@@ -33,8 +33,6 @@ type SmoothBorderTextInputProps = {
 	isBlurValueBorderColor?: string;
 	reduceMotion?: "never" | "always" | "system";
 };
-
-
 
 export default function SmoothBorderTextInput(
 	props: React.JSX.IntrinsicAttributes &

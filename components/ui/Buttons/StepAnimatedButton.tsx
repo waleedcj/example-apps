@@ -9,15 +9,17 @@ import Animated, {
     useSharedValue,
     withTiming,
 } from "react-native-reanimated";
-import { useAppColors } from '@/hooks/useAppColors';
 
-export interface AnimatedScrollingButtonProps {
+export type AnimatedScrollingButtonProps = {
     accessibilityHint?: string;
     accessibilityLabel?: string;
     currentStep: number;
     isDisabled?: boolean;
     isLoading?: boolean;
     onPress: () => void;
+    buttonColor: string;
+    buttonTouchColor: string;
+    textColor: string;
     steps: {
         Icon?: ReactElement;
         title: string;
@@ -29,28 +31,6 @@ const BACKGROUND_TRANSITION_DURATION = 300;
 const HEIGHT = 42;
 const SCROLL_TRANSITION_DURATION = 300;
 
-const styles = StyleSheet.create({
-    container: {
-        borderRadius: 8,
-        height: HEIGHT,
-        overflow: "hidden",
-    },
-    stepContainer: {
-        alignItems: "center",
-        flexDirection: "row",
-        gap: 8,
-        height: HEIGHT,
-        justifyContent: "center",
-        paddingHorizontal: 12,
-        paddingVertical: 8,
-    },
-    title: {
-        flexShrink: 1,
-        fontSize: 18,
-        fontWeight: "600",
-    },
-});
-
 export const StepAnimatedButton = ({
     accessibilityHint,
     accessibilityLabel,
@@ -58,17 +38,27 @@ export const StepAnimatedButton = ({
     isDisabled = false,
     isLoading = false,
     onPress,
+    buttonColor,
+    buttonTouchColor,
+    textColor,
     steps,
     reduceMotion = "system",
 }: AnimatedScrollingButtonProps) => {
     const scrollTransition = useSharedValue(0);
     const backgroundTransition = useSharedValue(0);
     const isActive = useSharedValue(false);
-    const colors = useAppColors();
+
+    const motion =
+    reduceMotion === "never"
+        ? ReduceMotion.Never
+        : reduceMotion === "always"
+            ? ReduceMotion.Always
+            : ReduceMotion.System;
 
     useEffect(() => {
         scrollTransition.value = withTiming(currentStep, {
             duration: SCROLL_TRANSITION_DURATION,
+            reduceMotion: motion
         });
 
         return () => {
@@ -76,18 +66,13 @@ export const StepAnimatedButton = ({
         };
     }, [currentStep]);
 
-    const motion =
-		reduceMotion === "never"
-			? ReduceMotion.Never
-			: reduceMotion === "always"
-				? ReduceMotion.Always
-				: ReduceMotion.System;
+
 
     const animatedScrollingContainerStyle = useAnimatedStyle(() => ({
         backgroundColor: interpolateColor(
             backgroundTransition.value,
             [0, 1],
-            [colors.PrimaryNormal, colors.PrimaryLightBackground]
+            [buttonColor, buttonTouchColor]
         ),
         transform: [
             {
@@ -142,7 +127,7 @@ export const StepAnimatedButton = ({
                     styles.container,
                     {
                         opacity: isDisabled ? 0.5 : 1,
-                        backgroundColor: colors.PrimaryNormal
+                        backgroundColor: buttonColor
                     },
                 ]}
             >
@@ -150,7 +135,7 @@ export const StepAnimatedButton = ({
                     {steps.reverse().map((step) => (
                         <View key={step.title} style={styles.stepContainer}>
                             {step.Icon}
-                            <Text numberOfLines={1} style={[styles.title, { color: colors.Neutral700 }]}>
+                            <Text numberOfLines={1} style={[styles.title, { color: textColor }]}>
                                 {step.title}
                             </Text>
                         </View>
@@ -160,3 +145,25 @@ export const StepAnimatedButton = ({
         </Pressable>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        borderRadius: 8,
+        height: HEIGHT,
+        overflow: "hidden",
+    },
+    stepContainer: {
+        alignItems: "center",
+        flexDirection: "row",
+        gap: 8,
+        height: HEIGHT,
+        justifyContent: "center",
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+    },
+    title: {
+        flexShrink: 1,
+        fontSize: 18,
+        fontWeight: "600",
+    },
+});

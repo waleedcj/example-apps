@@ -33,9 +33,9 @@ const DEBOUNCE_DELAY = 300;
 type AnimatedSearchBarProps = {
 	onSearchSubmit: (term: string) => void;
 	placeholder?: string;
-	searchStartIcon: React.ReactNode;
-	recentSearchStartIcon?: React.ReactNode;
-	recentSearchEndIcon?: React.ReactNode;
+	searchStartIcon: React.ReactElement;
+	recentSearchStartIcon?: React.ReactElement;
+	recentSearchEndIcon?: React.ReactElement;
 	loaderColor?: string;
 	inputTextColor?: string;
 	containerBackgroundColor?: string;

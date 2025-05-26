@@ -7,15 +7,16 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from "react-native-reanimated";
-import { useAppColors } from '@/hooks/useAppColors';
 
-export interface ResizingButtonProps {
+export type ResizingButtonProps = {
 	accessibilityHint?: string;
 	accessibilityLabel?: string;
 	Icon?: ReactElement;
 	isDisabled?: boolean;
 	isLoading?: boolean;
 	onPress: () => void;
+	buttonColor: string;
+    textColor: string;
 	scale?: number;
 	title: string;
 	reduceMotion?: "never" | "always" | "system";
@@ -23,23 +24,6 @@ export interface ResizingButtonProps {
 
 const DURATION = 300;
 
-const styles = StyleSheet.create({
-	container: {
-		alignItems: "center",
-		borderRadius: 8,
-		flexDirection: "row",
-		gap: 8,
-		height: 42,
-		justifyContent: "center",
-		paddingHorizontal: 12,
-		paddingVertical: 8,
-	},
-	title: {
-		flexShrink: 1,
-		fontSize: 18,
-		fontWeight: "600",
-	},
-});
 
 export const ScaleAnimatedButton = ({
 	accessibilityHint,
@@ -48,13 +32,14 @@ export const ScaleAnimatedButton = ({
 	isDisabled = false,
 	isLoading = false,
 	onPress,
+	buttonColor,
+	textColor,
 	scale = 0.95,
 	title,
 	reduceMotion = "system",
 }: ResizingButtonProps) => {
 	const transition = useSharedValue(0);
 	const isActive = useSharedValue(false);
-	const colors = useAppColors();
 
 	const motion =
 		reduceMotion === "never"
@@ -85,7 +70,7 @@ export const ScaleAnimatedButton = ({
 			onPress={onPress}
 			onPressIn={() => {
 				isActive.value = true;
-				transition.value = withTiming(1, { duration: DURATION }, () => {
+				transition.value = withTiming(1, { duration: DURATION, reduceMotion: motion, }, () => {
 					if (!isActive.value) {
 						transition.value = withTiming(0, {
 							duration: DURATION,
@@ -109,19 +94,19 @@ export const ScaleAnimatedButton = ({
 					styles.container,
 					animatedStyle,
 					{
-						opacity: isDisabled ? 0.9 : 1,
-						backgroundColor: colors.PrimaryNormal,
+						opacity: isDisabled ? 0.5 : 1,
+						backgroundColor: buttonColor,
 					},
 				]}
 			>
 				{isLoading ? (
-					<ActivityIndicator color={colors.Neutral700} size={18} />
+					<ActivityIndicator color={textColor} size={18} />
 				) : (
 					<>
 						{Icon}
 						<Text
 							numberOfLines={1}
-							style={[styles.title, { color: colors.Neutral700 }]}
+							style={[styles.title, { color: textColor }]}
 						>
 							{title}
 						</Text>
@@ -131,3 +116,21 @@ export const ScaleAnimatedButton = ({
 		</Pressable>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		alignItems: "center",
+		borderRadius: 8,
+		flexDirection: "row",
+		gap: 8,
+		height: 42,
+		justifyContent: "center",
+		paddingHorizontal: 12,
+		paddingVertical: 8,
+	},
+	title: {
+		flexShrink: 1,
+		fontSize: 18,
+		fontWeight: "600",
+	},
+});

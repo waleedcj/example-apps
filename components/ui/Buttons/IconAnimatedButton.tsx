@@ -8,40 +8,21 @@ import Animated, {
     useSharedValue,
     withTiming,
 } from "react-native-reanimated";
-import { useAppColors } from '@/hooks/useAppColors';
 
-export interface AnimatedIconButtonProps {
+export type AnimatedIconButtonProps = {
     accessibilityHint?: string;
     accessibilityLabel?: string;
     Icon?: ReactElement;
     isDisabled?: boolean;
     isLoading?: boolean;
+    buttonColor: string;
+    textColor: string;
     onPress: () => void;
     title: string;
     reduceMotion?: "never" | "always" | "system";
 }
 
 const DURATION = 300;
-
-const styles = StyleSheet.create({
-    container: {
-        alignItems: "center",
-        // backgroundColor: theme.colors.primary,
-        borderRadius: 8,
-        flexDirection: "row",
-        gap: 8,
-        height: 42,
-        justifyContent: "center",
-        paddingHorizontal: 12,
-        paddingVertical: 8,
-    },
-    title: {
-        // color: theme.colors.textInverted,
-        flexShrink: 1,
-        fontSize: 18,
-        fontWeight: "600",
-    },
-});
 
 export const IconAnimatedButton = ({
     accessibilityHint,
@@ -50,6 +31,8 @@ export const IconAnimatedButton = ({
     isDisabled = false,
     isLoading = false,
     onPress,
+    buttonColor,
+    textColor,
     title,
     reduceMotion = "system",
 }: AnimatedIconButtonProps) => {
@@ -58,7 +41,6 @@ export const IconAnimatedButton = ({
     const isActive = useSharedValue(false);
     const [containerWidth, setContainerWidth] = useState(0);
     const [iconX, setIconX] = useState(0);
-    const colors = useAppColors();
 
     const isIconMovingBack = useDerivedValue(() => {
         const value = transition.value < previousTransition.value ? 1 : 0;
@@ -105,7 +87,7 @@ export const IconAnimatedButton = ({
             onPress={onPress}
             onPressIn={() => {
                 isActive.value = true;
-                transition.value = withTiming(1, { duration: DURATION }, () => {
+                transition.value = withTiming(1, { duration: DURATION, reduceMotion: motion }, () => {
                     if (!isActive.value) {
                         transition.value = withTiming(0, {
                             duration: DURATION,
@@ -131,7 +113,7 @@ export const IconAnimatedButton = ({
                     styles.container,
                     {
                         opacity: isDisabled ? 0.5 : 1,
-                        backgroundColor: colors.PrimaryNormal,
+                        backgroundColor: buttonColor,
                     },
                 ]}
             >
@@ -145,7 +127,7 @@ export const IconAnimatedButton = ({
                 </Animated.View>
                 <Animated.Text
                     numberOfLines={1}
-                    style={[styles.title, animatedTitleStyle, { color: colors.Neutral700 }]}
+                    style={[styles.title, animatedTitleStyle, { color: textColor }]}
                 >
                     {title}
                 </Animated.Text>
@@ -153,3 +135,21 @@ export const IconAnimatedButton = ({
         </Pressable>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        alignItems: "center",
+        borderRadius: 8,
+        flexDirection: "row",
+        gap: 8,
+        height: 42,
+        justifyContent: "center",
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+    },
+    title: {
+        flexShrink: 1,
+        fontSize: 18,
+        fontWeight: "600",
+    },
+});
