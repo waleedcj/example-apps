@@ -1,4 +1,3 @@
-// app/showcase.tsx (or app/index.tsx, or wherever you want this main navigation page)
 import React from 'react';
 import {
   SafeAreaView,
@@ -7,21 +6,19 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  Platform,
   Image
 } from 'react-native';
 import { router } from 'expo-router';
-import { useAppColors } from '@/hooks/useAppColors'; // Assuming you have this
-import { Ionicons } from '@expo/vector-icons'; // For list item icons
+import { useAppColors } from '@/hooks/useAppColors'; 
+import { Ionicons } from '@expo/vector-icons'; 
 const favicon = require("@/assets/images/favicon.png");
 
 // Define the structure for our route items
 type ShowcaseRoute = {
-  key: string; // Unique key for FlatList
-  name: string; // Display name for the route
-  path: string; // Actual path for Expo Router (e.g., '/radialBackground')
-  icon?: keyof typeof Ionicons.glyphMap; // Optional icon
-  description?: string; // Optional short description
+  key: string;
+  name: string; 
+  path: string; 
+  description?: string; 
 }
 
 // List of all your component showcase routes
@@ -41,6 +38,7 @@ const showcaseRoutes: ShowcaseRoute[] = [
   { key: 'progressBar', name: "Animated Progress Bar", path: "/ProgressBarPage",  description: "Linear progress bar with icon/text." },
   { key: 'dropdown', name: "Dropdown Picker", path: "/DropdownPickerPage", description: "Custom dropdown select component." },
   { key: 'buttons', name: "Button Collection", path: "/ButtonsPage", description: "Showcase of various button styles." },
+  { key: 'cardForm', name: "Card Info Form", path: "/CardDetailsFormPage", description: "Card details input form with smooth border input" }, 
 ];
 
 
@@ -48,7 +46,7 @@ export default function Demo() {
   const colors = useAppColors();
 
   const navigateToScreen = (path: string) => {
-    router.push(path as any); // Type assertion if path isn't strictly typed for router.push
+    router.push(path as any);
   };
 
   const renderRouteItem = ({ item }: { item: ShowcaseRoute }) => (
@@ -119,11 +117,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 15,
     paddingHorizontal: 20,
-    marginVertical: 4, // Small gap between items
-    marginHorizontal: 16, // Overall horizontal margin for the list items
+    marginVertical: 4,
+    marginHorizontal: 16,
     borderRadius: 10,
-    // backgroundColor and borderBottomColor set dynamically
-    // Shadow for a card-like feel
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -137,7 +133,6 @@ const styles = StyleSheet.create({
     marginRight: 18,
     padding: 8,
     borderRadius: 8,
-    // backgroundColor: colors.PrimaryLightBackground // Could add a light background for icon
   },
   itemTextContainer: {
     flex: 1,
