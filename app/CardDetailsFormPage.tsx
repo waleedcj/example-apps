@@ -9,10 +9,12 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	useWindowDimensions,
+	Alert,
+	ActivityIndicator,
 } from "react-native";
 import { useAppColors } from "@/hooks/useAppColors";
-import { Ionicons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import SmoothBorderTextInput from "@/components/ui/textInput/SmoothBorderTextInput";
 import Animated, {
 	Easing,
@@ -22,24 +24,28 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from "react-native-reanimated";
-import { LinearGradient } from "expo-linear-gradient"; // Import LinearGradient
+import { LinearGradient } from "expo-linear-gradient";
 import Svg, { Path } from "react-native-svg";
+import { luhnChk, validateExpiryDate } from "@/utils/validateInfo";
 
-// Default gradient colors (e.g., for "nocard" or unknown)
+
 const DEFAULT_GRADIENT: [string, string] = ["#CDCDCD", "#A0A0A0"]; // Light Grey to Darker Grey
-const VISA_GRADIENT: [string, string] = ["#1A1F71", "#6366F1"]; // Dark Blue to Lighter Blue/Purple (like your image)
+const VISA_GRADIENT: [string, string] = ["#1A1F71", "#6366F1"]; // Dark Blue to Lighter Blue/Purple
 const MASTERCARD_GRADIENT: [string, string] = ["#EB001B", "#FF5F00"]; // Red to Orange
 const AMEX_GRADIENT: [string, string] = ["#006FCF", "#00A4E0"]; // Blue to Lighter Blue
 
 const CARD_HEIGHT = 225;
 
+type FormField = "cardName" | "cardNumber" | "expiryDate" | "cvv";
+
 export default function CardDetailsFormPage() {
 	const { width: screenWidth } = useWindowDimensions();
 	const colors = useAppColors();
-    const motion = ReduceMotion.Never
+	const motion = ReduceMotion.Never;
 
 	const [activeGradient, setActiveGradient] = useState<[string, string]>(DEFAULT_GRADIENT);
-    const [ActiveLogoComponent, setActiveLogoComponent] = useState(() => <></>); // Initialize
+	const [ActiveLogoComponent, setActiveLogoComponent] = useState(() => <></>); // Initialize
+	const [isLoading, setIsLoading] = useState(false);
 
 	const cardVisualsOpacity = useSharedValue(1); // Opacity for the current card visuals
 
@@ -60,13 +66,14 @@ export default function CardDetailsFormPage() {
 	});
 
 	// Handle input changes
-	const handleChange = (field, value) => {
+	const handleChange = (field: FormField, value: string) => {
 		// Format card number with spaces
 		if (field === "cardNumber") {
-			value = value
-				.replace(/\s/g, "")
-				.replace(/(.{4})/g, "$1 ")
-				.trim();
+            value = value
+                .replace(/[^0-9]/g, "")
+                .replace(/\s/g, "")
+                .replace(/(.{4})/g, "$1 ")
+                .trim();
 		}
 
 		// Format expiry date with slash
@@ -89,13 +96,14 @@ export default function CardDetailsFormPage() {
 			setErrors((prev) => ({ ...prev, [field]: false }));
 		}
 	};
+  
 
 	// Validate form
 	const validateForm = () => {
 		const newErrors = {
 			cardName: !formData.cardName,
-			cardNumber: !/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/.test(formData.cardNumber),
-			expiryDate: !/^\d{2}\/\d{2}$/.test(formData.expiryDate),
+			cardNumber: !luhnChk(formData.cardNumber.replace(/\s/g, "")),
+			expiryDate: !validateExpiryDate(formData.expiryDate),
 			cvv: !/^\d{3,4}$/.test(formData.cvv),
 		};
 
@@ -105,19 +113,40 @@ export default function CardDetailsFormPage() {
 
 	// Handle form submission
 	const handleSubmit = () => {
+        console.log(formData.cardNumber);
 		if (validateForm()) {
-			console.log("Payment submitted:", formData);
-			// Process payment logic here
+			setIsLoading(true);
+
+			// Simulate API call with setTimeout
+			setTimeout(() => {
+				console.log("Payment submitted:", formData);
+
+				Alert.alert("Success", "Payment processed successfully!", [
+					{
+						text: "OK",
+						onPress: () => {
+							// Clear form data
+							setFormData({
+								cardName: "",
+								cardNumber: "",
+								expiryDate: "",
+								cvv: "",
+							});
+							setIsLoading(false);
+						},
+					},
+				]);
+			}, 1500);
 		}
 	};
 
 	// Get card brand logo based on first digits
 	const getCardBrandDetails = () => {
 		const number = formData.cardNumber.replace(/\s/g, "");
-        if(!number) return { name: "CARD", gradient: DEFAULT_GRADIENT, Logo: () => <></> };
+		if (!number) return { name: "CARD", gradient: DEFAULT_GRADIENT, Logo: () => <></> };
 		if (number.startsWith("4")) {
 			// Visa
-			return { name: "VISA", gradient: VISA_GRADIENT, Logo: VisaIcon};
+			return { name: "VISA", gradient: VISA_GRADIENT, Logo: VisaIcon };
 		} else if (/^5[1-5]/.test(number)) {
 			// Mastercard
 			return { name: "Mastercard", gradient: MASTERCARD_GRADIENT, Logo: MastercardIcon };
@@ -131,23 +160,23 @@ export default function CardDetailsFormPage() {
 	useEffect(() => {
 		const newDetails = getCardBrandDetails();
 
-        // Only proceed if the actual brand (determined by name or gradient) changes
-        if (newDetails.gradient[0] !== activeGradient[0] || newDetails.gradient[1] !== activeGradient[1]) {
-            const animConfigOut = { duration: 200, easing: Easing.out(Easing.ease), reduceMotion: motion }; // Faster fade out
-            const animConfigIn = { duration: 300, easing: Easing.in(Easing.ease), reduceMotion: motion };  // Slightly slower fade in
+		// Only proceed if the actual brand (determined by name or gradient) changes
+		if (newDetails.gradient[0] !== activeGradient[0] || newDetails.gradient[1] !== activeGradient[1]) {
+			const animConfigOut = { duration: 200, easing: Easing.out(Easing.ease), reduceMotion: motion }; // Faster fade out
+			const animConfigIn = { duration: 300, easing: Easing.in(Easing.ease), reduceMotion: motion }; // Slightly slower fade in
 
-            // 1. Fade out current visuals
-            cardVisualsOpacity.value = withTiming(0, animConfigOut, (finished) => {
-                if (finished) {
-                    // 2. Update state for gradient and logo (this happens on JS thread)
-                    //    This will cause a re-render with the new gradient/logo, but they are still at opacity 0.
-                    runOnJS(setActiveGradient)(newDetails.gradient);
-                    runOnJS(setActiveLogoComponent)(newDetails.Logo); 
-                    // 3. Fade in new visuals (this starts on UI thread after state update is processed)
-                    cardVisualsOpacity.value = withTiming(1, animConfigIn);
-                }
-            });
-        }
+			// 1. Fade out current visuals
+			cardVisualsOpacity.value = withTiming(0, animConfigOut, (finished) => {
+				if (finished) {
+					// 2. Update state for gradient and logo (this happens on JS thread)
+					//    This will cause a re-render with the new gradient/logo, but they are still at opacity 0.
+					runOnJS(setActiveGradient)(newDetails.gradient);
+					runOnJS(setActiveLogoComponent)(newDetails.Logo);
+					// 3. Fade in new visuals (this starts on UI thread after state update is processed)
+					cardVisualsOpacity.value = withTiming(1, animConfigIn);
+				}
+			});
+		}
 	}, [formData.cardNumber]);
 
 	const animatedCardVisualsStyle = useAnimatedStyle(() => ({
@@ -160,19 +189,21 @@ export default function CardDetailsFormPage() {
 				<ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
 					<View style={styles.formHeader}>
 						<View style={styles.securePaymentRow}>
-							<Ionicons name="shield-checkmark" size={22} color="#10B981" />
-							<Text style={styles.securePaymentText}>Secure Payment</Text>
+							<Ionicons name="shield-checkmark" size={22} color={colors.SuccessfulNormal} />
+							<Text style={[styles.securePaymentText, { color: colors.SuccessfulNormal }]}>Secure Payment</Text>
 						</View>
-						<Text style={styles.formTitle}>Payment Details</Text>
-						<Text style={styles.formSubtitle}>Complete your purchase by providing your payment details</Text>
+						<Text style={[styles.formTitle, { color: colors.Neutral700 }]}>Payment Details</Text>
+						<Text style={[styles.formSubtitle, { color: colors.Neutral300 }]}>
+							Complete your purchase by providing your payment details
+						</Text>
 					</View>
 
 					<View style={[styles.cardIllustration]}>
 						<View style={[styles.cardPreviewContainer, { width: screenWidth - 32 }]}>
 							{/* Current Gradient (fades in) */}
-                            <Animated.View style={[StyleSheet.absoluteFill, animatedCardVisualsStyle]}>
+							<Animated.View style={[StyleSheet.absoluteFill, animatedCardVisualsStyle]}>
 								<LinearGradient
-									colors={activeGradient} // Uses React state `activeGradient`
+									colors={activeGradient}
 									style={styles.gradientBase}
 									start={{ x: 0.0, y: 0.0 }}
 									end={{ x: 1.0, y: 1.0 }}
@@ -182,12 +213,8 @@ export default function CardDetailsFormPage() {
 							{/* Card Content Overlay - always visible on top */}
 							<View style={styles.cardContentOverlay}>
 								<View style={styles.cardHeaderTop}>
-								
-										<Chip />
-                                        <Animated.View style={[animatedCardVisualsStyle]}>
-										{ActiveLogoComponent}
-                                        </Animated.View>
-									{/* <VisaIcon /> */}
+									<Chip />
+									<Animated.View style={[animatedCardVisualsStyle]}>{ActiveLogoComponent}</Animated.View>
 								</View>
 								<Text style={styles.cardNumberPreview}>{formData.cardNumber || "•••• •••• •••• ••••"}</Text>
 								<View style={styles.cardDetails}>
@@ -207,20 +234,23 @@ export default function CardDetailsFormPage() {
 					</View>
 
 					<View style={styles.formContainer}>
-                        	{/* Card Number */}
+						{/* Card Number */}
 						<SmoothBorderTextInput
 							label="Card Number"
 							placeholder="1234 5678 9012 3456"
 							value={formData.cardNumber}
 							onChangeText={(text) => handleChange("cardNumber", text)}
-							backgroundColor={colors.Neutral0}
+							labelColor={colors.Neutral500}
+							valueColor={colors.Neutral700}
+							isFocusBorderColor={colors.AuxColorTwo}
+							isBlurBorderColor={colors.Neutral100}
+							isBlurValueBorderColor={colors.SuccessfulNormal}
 							isError={errors.cardNumber}
-							errorMessage="Enter a valid 16-digit card number"
+							errorMessage="Enter a valid card number"
 							keyboardType="number-pad"
 							maxLength={19} // 16 digits  3 spaces
-                            reduceMotion="never"
+							reduceMotion="never"
 						/>
-
 
 						{/* Row for Expiry and CVV */}
 						<View style={styles.rowInputs}>
@@ -230,12 +260,16 @@ export default function CardDetailsFormPage() {
 									placeholder="MM/YY"
 									value={formData.expiryDate}
 									onChangeText={(text) => handleChange("expiryDate", text)}
-									backgroundColor={colors.Neutral0}
+									labelColor={colors.Neutral500}
+									valueColor={colors.Neutral700}
+									isFocusBorderColor={colors.AuxColorThree}
+									isBlurBorderColor={colors.Neutral100}
+									isBlurValueBorderColor={colors.SuccessfulNormal}
 									isError={errors.expiryDate}
 									errorMessage="Invalid date"
 									keyboardType="number-pad"
 									maxLength={5} // MM/YY
-                                    reduceMotion="never"
+									reduceMotion="never"
 								/>
 							</View>
 
@@ -245,13 +279,17 @@ export default function CardDetailsFormPage() {
 									placeholder="123"
 									value={formData.cvv}
 									onChangeText={(text) => handleChange("cvv", text)}
-									backgroundColor={colors.Neutral0}
+									labelColor={colors.Neutral500}
+									valueColor={colors.Neutral700}
+									isFocusBorderColor={colors.AuxColorThree}
+									isBlurBorderColor={colors.Neutral100}
+									isBlurValueBorderColor={colors.SuccessfulNormal}
 									isError={errors.cvv}
 									errorMessage="Invalid CVV"
 									keyboardType="number-pad"
 									maxLength={4}
 									secureTextEntry
-                                    reduceMotion="never"
+									reduceMotion="never"
 								/>
 							</View>
 						</View>
@@ -262,7 +300,11 @@ export default function CardDetailsFormPage() {
 							placeholder="Name on card"
 							value={formData.cardName}
 							onChangeText={(text) => handleChange("cardName", text)}
-							backgroundColor={colors.Neutral0}
+							labelColor={colors.Neutral500}
+							valueColor={colors.Neutral700}
+							isFocusBorderColor={colors.PrimaryNormal}
+							isBlurBorderColor={colors.Neutral100}
+							isBlurValueBorderColor={colors.SuccessfulNormal}
 							startIcon={
 								<AntDesign name="user" size={18} style={{ left: 12, marginRight: 4 }} color={colors.Neutral300} />
 							}
@@ -271,13 +313,24 @@ export default function CardDetailsFormPage() {
 							autoCapitalize="words"
 						/>
 
-						<TouchableOpacity style={styles.payButton} onPress={handleSubmit} activeOpacity={0.8}>
-							<Text style={styles.payButtonText}>Pay Now</Text>
+						<TouchableOpacity
+							style={[styles.payButton, { opacity: isLoading ? 0.5 : 1 }]}
+							onPress={handleSubmit}
+							activeOpacity={0.8}
+							disabled={isLoading}
+						>
+							{isLoading ? (
+								<ActivityIndicator color={colors.Neutral500} />
+							) : (
+								<Text style={styles.payButtonText}>Pay Now</Text>
+							)}
 						</TouchableOpacity>
 
 						<View style={styles.securityNote}>
-							<Ionicons name="lock-closed" size={16} color="#6B7280" />
-							<Text style={styles.securityText}>Your data is encrypted and secure. We respect your privacy.</Text>
+							<Ionicons name="lock-closed" size={16} color={colors.Neutral300} />
+							<Text style={[styles.securityText, { color: colors.Neutral300 }]}>
+								Your data is encrypted and secure. We respect your privacy.
+							</Text>
 						</View>
 					</View>
 				</ScrollView>
@@ -289,7 +342,6 @@ export default function CardDetailsFormPage() {
 const styles = StyleSheet.create({
 	safeArea: {
 		flex: 1,
-		// backgroundColor: '#FFFFFF',
 	},
 	keyboardAvoid: {
 		flex: 1,
@@ -307,7 +359,6 @@ const styles = StyleSheet.create({
 		marginBottom: 8,
 	},
 	securePaymentText: {
-		color: "#10B981",
 		fontSize: 14,
 		fontWeight: "600",
 		marginLeft: 6,
@@ -315,12 +366,10 @@ const styles = StyleSheet.create({
 	formTitle: {
 		fontSize: 26,
 		fontWeight: "700",
-		color: "#1F2937",
 		marginBottom: 8,
 	},
 	formSubtitle: {
 		fontSize: 15,
-		color: "#6B7280",
 		lineHeight: 22,
 	},
 	cardIllustration: {
@@ -331,7 +380,7 @@ const styles = StyleSheet.create({
 		height: CARD_HEIGHT,
 		padding: 24,
 	},
-NumberPreview: {
+	NumberPreview: {
 		color: "#FFFFFF",
 		fontSize: 22,
 		fontWeight: "600",
@@ -349,6 +398,7 @@ NumberPreview: {
 	},
 	cardDetailValue: {
 		color: "#FFFFFF",
+		fontFamily: Platform.OS === "ios" ? "Courier New" : "monospace",
 		fontSize: 14,
 		fontWeight: "500",
 	},
@@ -387,34 +437,33 @@ NumberPreview: {
 		marginVertical: 16,
 	},
 	securityText: {
-		color: "#6B7280",
 		fontSize: 13,
 		marginLeft: 6,
 	},
 	cardPreviewContainer: {
-		// This is the main container for the card visuals
 		height: CARD_HEIGHT,
 		borderRadius: 16,
-		overflow: "hidden", // IMPORTANT: Clips the absolutely positioned gradients
-		backgroundColor: "#E0E0E0", // Fallback BG if gradients are slow or error
-		// Shadows for the card container
-		shadowColor: "#000",
-		shadowOffset: { width: 0, height: 4 },
-		shadowOpacity: 0.2,
-		shadowRadius: 8,
-		elevation: 8,
+		overflow: "hidden",
+		backgroundColor: "#E0E0E0", // Fallback BG
 	},
-    cardNumberPreview: { color: "#FFFFFF", fontSize: 22, fontWeight: "500", letterSpacing: 3, fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace', textAlign: 'left', marginVertical: 'auto' },
+	cardNumberPreview: {
+		color: "#FFFFFF",
+		fontSize: 22,
+		fontWeight: "500",
+		letterSpacing: 3,
+		fontFamily: Platform.OS === "ios" ? "Courier New" : "monospace",
+		textAlign: "left",
+		marginVertical: "auto",
+	},
 	gradientBase: {
-		// Style for both LinearGradient components
 		...StyleSheet.absoluteFillObject, // Make them fill their parent Animated.View
-		borderRadius: 16, // Ensure gradient itself is rounded
+		borderRadius: 16,
 	},
 	cardContentOverlay: {
 		...StyleSheet.absoluteFillObject,
-		padding: 20, // Adjusted padding for content
+		padding: 20,
 		justifyContent: "space-between",
-		zIndex: 1, // Ensure content is on top of gradients
+		zIndex: 1,
 	},
 	cardHeaderTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
 });

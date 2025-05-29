@@ -70,6 +70,7 @@ export default function RootLayout() {
             <Stack.Screen name="DropdownPickerPage" options={{ headerShown: false }} />  
             <Stack.Screen name="ButtonsPage" options={{ headerShown: false }} /> 
             <Stack.Screen name="CardDetailsFormPage" options={{ headerShown: false }} /> 
+            <Stack.Screen name="SignupFormPage" options={{ headerShown: false }} /> 
           </Stack>
           <StatusBar style="auto" />
         </ThemeProvider>

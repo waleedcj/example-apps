@@ -22,7 +22,6 @@ import Animated, {
 	interpolateColor,
 	interpolate,
 	Extrapolation,
-	SharedValue,
 } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
 
@@ -43,7 +42,6 @@ export const SPRING_CONFIG = {
 type SwipeSliderProps = {
 	onSwipeComplete: () => void;
 	enableHaptics?: boolean;
-	completed?: SharedValue<boolean>;
 	sliderSize?: number;
 	sliderTrackWidth?: number;
 	sliderTrackHeight?: number;
@@ -54,7 +52,8 @@ type SwipeSliderProps = {
 	textColor: string;
 	initialText: string;
 	completeText: string;
-	icon: React.ReactElement;
+	startIcon: React.ReactElement;
+	endIcon: React.ReactElement;
 	trackStyle?: StyleProp<ViewStyle>;
 	handleStyle?: StyleProp<ViewStyle>;
 	textStyle?: StyleProp<TextStyle>;
@@ -74,7 +73,8 @@ const SwipeSlider: React.FC<SwipeSliderProps> = ({
 	textColor,
 	initialText,
 	completeText,
-	icon,
+	startIcon,
+	endIcon,
 	textStyle,
 	reduceMotion = "system",
 }) => {
@@ -187,7 +187,24 @@ const SwipeSlider: React.FC<SwipeSliderProps> = ({
 							},
 						]}
 					>
-						{icon}
+					<Animated.View
+						style={[
+							slideToPayTextAnimatedStyle,
+							styles.iconContainer
+						]}
+					>
+						{startIcon}
+					</Animated.View>
+					<Animated.View
+						style={[
+							successTextAnimatedStyle,
+							styles.iconContainer
+						]}
+					>
+						{endIcon}
+					</Animated.View>
+
+						
 					</Animated.View>
 				</GestureDetector>
 				<View style={styles.textContainer} pointerEvents="none">
@@ -234,6 +251,11 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		zIndex: 1,
+	},
+	iconContainer: {
+		position: "absolute",
+		alignItems: "center",
+		justifyContent: "center",
 	},
 	textContainer: {
 		...StyleSheet.absoluteFillObject, // Makes this view fill its parent (sliderTrack)

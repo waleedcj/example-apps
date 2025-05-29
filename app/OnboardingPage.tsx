@@ -6,30 +6,30 @@ import { useAppColors } from '@/hooks/useAppColors';
 
 // Define or import your onboarding data
 const AppOnboardingData = [
-    {
-        id: '1',
-        title: 'Find Your Spare Parts, Fast',
-        description: 'Browse a vast catalog of auto spare parts for your vehicle. Select parts based on your car’s make and model, whether you’re looking for new or used items. Our categorized inventory makes it easy to find exactly what you need in seconds.',
-        lottieAnim: require('@/assets/lottie/onboarding1.json') // Adjust path
-    },
-    {
-        id: '2',
-        title: 'Submit Requests Instantly',
-        description: 'Submit a request for the parts you need, and we’ll connect you to verified local shops instantly. Once you confirm your request, the right shops will be notified, and you’ll receive quick responses to get your car back on the road faster.',
-        lottieAnim: require('@/assets/lottie/onboarding2.json') // Adjust path
-    },
-    {
-        id: '3',
-        title: 'Chat with Sellers, Directly',
-        description: 'Once your request is accepted, you can chat directly with the seller via WhatsApp for easy order confirmation. No extra steps—just simple, direct communication to finalize your purchase!',
-        lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
-    },
+  {
+      id: '1',
+      title: 'Discover Local Services, Fast',
+      description: 'Browse through a wide range of local services tailored to your needs. Filter by category, location, and service type, whether you need home maintenance, repairs, or professional services. Our organized directory makes it simple to find the right provider in your area.',
+      lottieAnim: require('@/assets/lottie/onboarding1.json') // Adjust path
+  },
+  {
+      id: '2',
+      title: 'Book Appointments Instantly',
+      description: 'Submit a booking request for the service you need, and we will connect you to verified local providers instantly. Once you confirm your requirements, qualified professionals will be notified, and you will receive quick responses to schedule your appointment.',
+      lottieAnim: require('@/assets/lottie/onboarding2.json') // Adjust path
+  },
+  {
+      id: '3',
+      title: 'Chat with Providers, Directly',
+      description: 'Once your booking is accepted, you can chat directly with the service provider via WhatsApp for easy coordination. No extra steps—just simple, direct communication to confirm your appointment details!',
+      lottieAnim: require('@/assets/lottie/onboarding3.json') // Adjust path
+  },
 ]
 export default function OnboardingPage() {
   const colors = useAppColors();
 
   const handleOnboardingComplete = () => {
-    router.replace('/(tabs)');
+    alert("Onboarding is complete now shh shh");
   };
 
   return (

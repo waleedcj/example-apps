@@ -1,16 +1,9 @@
 import React from "react";
-import {
-	ScrollView,
-	View,
-	StyleSheet,
-	Alert,
-	Text,
-	Dimensions,
-} from "react-native";
+import { ScrollView, View, StyleSheet, Alert, Text, Dimensions, SafeAreaView } from "react-native";
 import SwipeSlider from "@/components/ui/Slider";
 import { useAppColors } from "@/hooks/useAppColors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { SafeAreaView } from "react-native-safe-area-context";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function SwipeSliderPage() {
 	const colors = useAppColors();
@@ -40,14 +33,10 @@ export default function SwipeSliderPage() {
 	return (
 		<SafeAreaView>
 			<ScrollView contentContainerStyle={styles.screenContainer}>
-				<Text style={[styles.title, { color: colors.Neutral900 }]}>
-					Swipe Slider Examples
-				</Text>
+				<Text style={[styles.title, { color: colors.Neutral900 }]}>Swipe Slider Examples</Text>
 				{/* Example 1: Payment Slider */}
 				<View style={styles.sliderSection}>
-					<Text style={[styles.sliderLabel, { color: colors.Neutral700 }]}>
-						1. Payment Confirmation
-					</Text>
+					<Text style={[styles.sliderLabel, { color: colors.Neutral700 }]}>1. Payment Confirmation</Text>
 					<SwipeSlider
 						onSwipeComplete={handlePaymentComplete}
 						initialTrackColor={colors.Neutral300} // A light grey for initial state
@@ -56,13 +45,8 @@ export default function SwipeSliderPage() {
 						textColor={colors.Neutral900} // Dark text on light handle, or white text on dark track
 						initialText="Slide to Pay $50.00"
 						completeText="Processing..."
-						icon={
-							<MaterialIcons
-								name="payment"
-								size={24}
-								color={colors.SuccessfulNormal}
-							/>
-						}
+						endIcon={<MaterialIcons name="payment" size={24} color={colors.SuccessfulNormal} />}
+						startIcon={<MaterialIcons name="double-arrow" size={24} color={colors.SuccessfulNormal} />}
 						borderRadius={25} // More rounded
 						sliderTrackWidth={screenWidth * 0.9}
 						sliderSize={60}
@@ -74,9 +58,7 @@ export default function SwipeSliderPage() {
 
 				{/* Example 2: General Action Confirmation */}
 				<View style={styles.sliderSection}>
-					<Text style={[styles.sliderLabel, { color: colors.Neutral700 }]}>
-						2. Confirm Action
-					</Text>
+					<Text style={[styles.sliderLabel, { color: colors.Neutral700 }]}>2. Confirm Action</Text>
 					<SwipeSlider
 						onSwipeComplete={handleActionConfirm}
 						initialTrackColor={colors.PrimaryLightBackground}
@@ -85,13 +67,8 @@ export default function SwipeSliderPage() {
 						textColor={colors.PrimaryDisable} // Text color that contrasts with PrimaryNormal
 						initialText="Slide to Confirm"
 						completeText="Confirmed!"
-						icon={
-							<MaterialIcons
-								name="check-circle-outline"
-								size={22}
-								color={colors.PrimaryDisable}
-							/>
-						}
+						startIcon={<AntDesign name="doubleright" size={24} color={colors.SuccessfulLightBackground} />}
+						endIcon={<AntDesign name="checkcircleo" size={24} color={colors.SuccessfulNormal} />}
 						borderRadius={12}
 						sliderSize={50}
 						sliderTrackWidth={screenWidth * 0.85}
@@ -102,9 +79,7 @@ export default function SwipeSliderPage() {
 
 				{/* Example 3: Unlock Slider */}
 				<View style={styles.sliderSection}>
-					<Text style={[styles.sliderLabel, { color: colors.Neutral700 }]}>
-						3. Slide to Unlock
-					</Text>
+					<Text style={[styles.sliderLabel, { color: colors.Neutral700 }]}>3. Slide to Unlock</Text>
 					<SwipeSlider
 						onSwipeComplete={handleUnlockComplete}
 						initialTrackColor={colors.Neutral500}
@@ -113,13 +88,8 @@ export default function SwipeSliderPage() {
 						textColor={colors.Neutral900} // White text for dark handle/accent track
 						initialText="Slide to Unlock"
 						completeText="Unlocked"
-						icon={
-							<MaterialIcons
-								name="lock-open"
-								size={26}
-								color={colors.Neutral0}
-							/>
-						}
+						endIcon={<AntDesign name="unlock" size={26} color={colors.Neutral0} />}
+						startIcon={<AntDesign name="lock" size={24} color={colors.Neutral0} />}
 						borderRadius={50} // Fully circular handle and track ends
 						sliderSize={55}
 						sliderTrackWidth={screenWidth * 0.75}
@@ -130,9 +100,7 @@ export default function SwipeSliderPage() {
 
 				{/* Example 4: Minimalistic Task Completion */}
 				<View style={styles.sliderSection}>
-					<Text style={[styles.sliderLabel, { color: colors.Neutral700 }]}>
-						4. Mark as Done (Minimal)
-					</Text>
+					<Text style={[styles.sliderLabel, { color: colors.Neutral700 }]}>4. Mark as Done (Minimal)</Text>
 					<SwipeSlider
 						onSwipeComplete={handleMinimalTaskComplete}
 						initialTrackColor={colors.Neutral100}
@@ -141,9 +109,8 @@ export default function SwipeSliderPage() {
 						textColor={colors.Neutral900}
 						initialText="Slide if done"
 						completeText="Done"
-						icon={
-							<MaterialIcons name="done" size={20} color={colors.Neutral700} />
-						}
+						startIcon={<AntDesign name="doubleright" size={24} color={colors.SuccessfulLightBackground} />}
+						endIcon={<MaterialIcons name="done" size={20} color={colors.Neutral700} />}
 						borderRadius={8}
 						sliderSize={40}
 						sliderTrackWidth={screenWidth * 0.6}
@@ -169,7 +136,7 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		marginBottom: 30,
 		textAlign: "center",
-	},
+	}, 
 	sliderSection: {
 		marginBottom: 40,
 		width: "100%",

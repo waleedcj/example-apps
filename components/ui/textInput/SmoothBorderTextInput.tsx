@@ -16,21 +16,20 @@ import Animated, {
 	ReduceMotion,
 } from "react-native-reanimated";
 import { useRef } from "react";
-import { useAppColors } from '@/hooks/useAppColors';
 const DEFAULT_INPUT_HEIGHT = 50; //you can change this according to your liking
 
 type SmoothBorderTextInputProps = {
 	containerStyle?: StyleProp<ViewStyle>;
-	backgroundColor: string;
+	backgroundColor?: string;
 	label: string;
+	labelColor: string; // label color which is the top
+	valueColor: string; // input value color
+	isFocusBorderColor: string; // border color while editing
+	isBlurBorderColor: string; //border color when there is no text value
+	isBlurValueBorderColor: string; //border color when you finish entering the text
 	startIcon?: React.ReactElement;
 	isError?: boolean;
 	errorMessage?: string;
-	isFocusLabelColor?: string;
-	isBlurLabelColor?: string;
-	isFocusBorderColor?: string;
-	isBlurBorderColor?: string;
-	isBlurValueBorderColor?: string;
 	reduceMotion?: "never" | "always" | "system";
 };
 
@@ -41,7 +40,6 @@ export default function SmoothBorderTextInput(
 		SmoothBorderTextInputProps
 ) {
 	const inputRef = useRef<TextInput>(null);
-	const colors = useAppColors();
 
 	// Animation value for the floating label
 	const animatedValue = useSharedValue(0);
@@ -78,20 +76,20 @@ export default function SmoothBorderTextInput(
 
 		if (props.isError) {
 			// Error state - always red regardless of focus
-			fromColor = colors.ErrorNormal;
-			toColor = colors.ErrorNormal;
+			fromColor = "#F65936";
+			toColor = "#F65936";
 		} else {
 			// No error state - handle normal cases
 			if (props.value) {
 				// Has value
-				fromColor = props.isBlurValueBorderColor ?? colors.Neutral500;
+				fromColor = props?.isBlurValueBorderColor;
 			} else {
 				// No value
-				fromColor = props.isBlurBorderColor ?? colors.Neutral100;
+				fromColor = props?.isBlurBorderColor;
 			}
 
 			// Focus color is always the same
-			toColor = props.isFocusBorderColor ?? colors.PrimaryNormal;
+			toColor = props.isFocusBorderColor;
 		}
 
 		return {
@@ -106,7 +104,7 @@ export default function SmoothBorderTextInput(
 
 	return (
 		<View style={{ marginBottom: 16 }}>
-			<Text style={[styles.label, { color: colors.Neutral500 }]}>
+			<Text style={[styles.label, { color: props?.labelColor}]}>
 				{props?.label}
 			</Text>
 			<Animated.View
@@ -128,7 +126,7 @@ export default function SmoothBorderTextInput(
 					style={[
 						styles.input,
 						{
-							color: colors.Neutral700,
+							color: props?.valueColor,
 						},
 						props?.style,
 					]}
@@ -138,7 +136,7 @@ export default function SmoothBorderTextInput(
 				/>
 			</Animated.View>
 			{props?.isError && (
-				<Text style={[styles.errorText, { color: colors.ErrorNormal }]}>
+				<Text style={[styles.errorText, { color: "#F65936" }]}>
 					{props?.errorMessage}
 				</Text>
 			)}

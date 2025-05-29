@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, SafeAreaView, Alert, ListRenderItem, TouchableOpacity } from "react-native";
 import DropdownPicker, { DropdownPickerItem } from "@/components/ui/DropdownPicker";
 import { useAppColors } from "@/hooks/useAppColors";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface MyCustomItem extends DropdownPickerItem {
 	// id, label, value are inherited

@@ -27,7 +27,7 @@ const showcaseRoutes: ShowcaseRoute[] = [
   { key: 'animHeader', name: "Animated Header", path: "/AnimatedHeader", description: "Header that animates on scroll." },
   { key: 'tabBar', name: "Custom TabBar", path: "/TabBarPage", description: "Custom animated tab bar." },
   { key: 'skeleton', name: "Skeleton Loaders", path: "/SkeletonPage", description: "Shimmering placeholder UI." },
-  { key: 'onboarding', name: "Onboarding Flow", path: "/OnboardingPage", description: "Multi-step onboarding sequence." },
+  { key: 'onboarding', name: "Onboarding Flow", path: "/OnboardingPage", description: "Three Step onboarding screen with lottie animation." },
   { key: 'imgCarousel', name: "Image Carousel", path: "/ImageCarouselPage", description: "Swipeable image gallery." },
   { key: 'swipeSlider', name: "Swipe Slider", path: "/SwipeSliderPage",  description: "Interactive swipeable slider." },
   { key: 'progressCircle', name: "Progress Circle", path: "/ProgressCirclePage", description: "Circular progress indicator." },
@@ -38,7 +38,8 @@ const showcaseRoutes: ShowcaseRoute[] = [
   { key: 'progressBar', name: "Animated Progress Bar", path: "/ProgressBarPage",  description: "Linear progress bar with icon/text." },
   { key: 'dropdown', name: "Dropdown Picker", path: "/DropdownPickerPage", description: "Custom dropdown select component." },
   { key: 'buttons', name: "Button Collection", path: "/ButtonsPage", description: "Showcase of various button styles." },
-  { key: 'cardForm', name: "Card Info Form", path: "/CardDetailsFormPage", description: "Card details input form with smooth border input" }, 
+  { key: 'cardForm', name: "Card Info Form", path: "/CardDetailsFormPage", description: "Card details input form with input and card animation" }, 
+  { key: 'signupForm', name: "Signup Form", path: "/SignupFormPage", description: "Signup form with floating input animations" },
 ];
 
 

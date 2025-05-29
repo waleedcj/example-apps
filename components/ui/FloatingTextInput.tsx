@@ -17,7 +17,6 @@ import {
 	ReduceMotion,
   } from "react-native-reanimated";
   import { useRef, useState, useMemo } from "react";
-  import { useAppColors } from "@/hooks/useAppColors";
   
   // These should ideally match your StyleSheet to avoid magic numbers
   const DEFAULT_INPUT_HEIGHT = 50; //you can change this according to your liking
@@ -29,11 +28,12 @@ import {
 	startIcon?: React.ReactElement;
 	backgroundColor: string;
 	label: string;
-	isFocusLabelColor?: string;
-	isBlurLabelColor?: string;
-	isFocusBorderColor?: string;
-	isBlurBorderColor?: string;
-	isBlurValueBorderColor?: string;
+	valueColor: string
+	isFocusLabelColor: string; //placeholder color after focus
+	isBlurLabelColor: string;  //placeholder color before foucs/touching
+	isFocusBorderColor: string; //border color after focusing
+	isBlurBorderColor: string; //border color before focus/touch
+	isBlurValueBorderColor: string; //border color after editing value
 	isError?: boolean;
 	errorMessage?: string;
 	reduceMotion?: "never" | "always" | "system";
@@ -47,7 +47,6 @@ import {
   ) {
 	const [isFocused, setIsFocused] = useState(false);
 	const inputRef = useRef<TextInput>(null);
-	const colors = useAppColors();
 	const animatedValue = useSharedValue(0);
 	const motion =
 	  props?.reduceMotion === "never"
@@ -101,15 +100,15 @@ import {
   
 	const getBorderColor = () => {
 	  if (props.isError) {
-		return colors.ErrorNormal;
+		return "#F65936";
 	  }
 	  if (isFocused) {
-		return props.isFocusBorderColor ?? colors.PrimaryNormal;
+		return props.isFocusBorderColor;
 	  }
 	  if (props.value) {
-		return props.isBlurValueBorderColor ?? colors.Neutral500;
+		return props.isBlurValueBorderColor;
 	  }
-	  return props.isBlurBorderColor ?? colors.Neutral100;
+	  return props.isBlurBorderColor;
 	};
   
 	const labelStyle = useAnimatedStyle(() => {
@@ -133,8 +132,8 @@ import {
 		  animatedValue.value,
 		  [0, 1],
 		  [
-			props.isBlurLabelColor ?? colors.Neutral300,
-			props.isFocusLabelColor ?? colors.Neutral500,
+			props.isBlurLabelColor,
+			props.isFocusLabelColor
 		  ]
 		),
 	  };
@@ -164,7 +163,7 @@ import {
 			  {
 				// Apply dynamic height and other styles
 				height: inputHeight, 
-				color: colors.Neutral700,
+				color: props.valueColor,
 				backgroundColor: props?.backgroundColor ?? "transparent",
 				borderColor: getBorderColor(),
 			  },
@@ -176,7 +175,7 @@ import {
 		  />
 		</View>
 		{props?.isError && (
-		  <Text style={[styles.errorText, { color: colors.ErrorNormal }]}>
+		  <Text style={[styles.errorText, { color: "#F65936" }]}>
 			{props?.errorMessage}
 		  </Text>
 		)}

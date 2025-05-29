@@ -7,7 +7,7 @@ import {
 	Dimensions,
 	TouchableOpacity,
 } from "react-native";
-// import LottieView from "lottie-react-native";
+import LottieView from "lottie-react-native";
 import Animated, {
 	useSharedValue,
 	useAnimatedScrollHandler,
@@ -15,7 +15,7 @@ import Animated, {
 import { useAppColors } from "@/hooks/useAppColors";
 import ScrollingPaginationDots from "./PaginationDots";
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window"); 
 
 // Define the structure of a single onboarding item
 export type OnboardingDataItem = {
@@ -70,12 +70,12 @@ const Onboarding: React.FC<OnboardingProps> = ({ data, onComplete }) => {
 		};
 		return (
 			<View style={[styles.slide, { width }]}>
-				{/* <LottieView
+				<LottieView
 					source={item.lottieAnim}
 					autoPlay
 					loop
 					style={lottieStyle}
-				/> */}
+				/>
 				<Text style={[styles.title, { color: colors.Neutral900 }]}>
 					{item.title}
 				</Text>
